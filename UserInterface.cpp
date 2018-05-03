@@ -1,5 +1,8 @@
 #include "UserInterface.h"
 #include "termios.h"
+#include "lib/picosha2.h"
+#include <fstream>
+#include <unistd.h>
 
 using namespace std;
 
@@ -21,7 +24,10 @@ void UserInterface::Run()
 {
 	cout << "lancement de l'appli" << endl;
 	if(!Login())
-	return;
+	{
+		cerr << "Login ou mot de pass incorrect" << endl;
+		return;
+	}
 	cout << "Connecté" << endl;
 	string s;
 	cin.clear();
@@ -36,7 +42,13 @@ void UserInterface::Run()
 		}
 		
 		auto strs = split(s);
-		auto cmd = strs[0];
+		const auto cmd = strs[0];
+		const unsigned int nbArgs = strs.size();
+		for(auto i : strs)
+		{
+			cout << i;
+		}
+		cout << endl;
 		if(cmd=="?" || cmd=="help")
 		{
 			cout << "TODO : display help" << endl;
@@ -44,6 +56,94 @@ void UserInterface::Run()
 		else if(cmd == "exit")
 		{
 			return;
+		}
+		else if(cmd == "aff-maladie")
+		{
+			switch(nbArgs)
+			{
+				case 1:
+					//TODO : mettre le bon appel
+					cout << "Affichage de toutes les maladies" << endl;
+					break;
+				case 2:
+					//TODO : mettre le bon appel
+					cout << "Affichage des infos de la maladie : " << strs[1] << endl;
+					break;
+				default:
+					cerr << "Too many arguments" << endl;
+					break;
+			}
+		}
+		else if(cmd == "set-ref")
+		{
+			switch(nbArgs)
+			{
+				case 1:
+					//TODO : mettre le bon appel
+					cerr << "Vous devez spécifier un fichier" << endl;
+					break;
+				case 2:
+					//TODO : mettre le bon appel
+					cout << "changement de ref"<< endl;
+					break;
+				default:
+					cerr << "Too many arguments" << endl;
+					break;
+			}
+		}
+		else if(cmd == "analys-emp")
+		{
+			switch(nbArgs)
+			{
+				case 1:
+					//TODO : mettre le bon appel
+					cerr << "Vous devez spécifier un fichier" << endl;
+					break;
+				case 2:
+					//TODO : mettre le bon appel
+					cout << "Traitement des analyses"<< endl;
+					break;
+				default:
+					cerr << "Too many arguments" << endl;
+					break;
+			}
+		}
+		else if(cmd == "aff-histo")
+		{
+			
+			const char* args[nbArgs];
+			for(unsigned int i = 0; i<nbArgs; i++)
+			{
+				args[i] = (strs[i].c_str());
+			}
+			string emp;
+			string date;
+			string idEmp;
+			
+			int c;
+			
+			while((c = getopt(nbArgs, (char* const*)args, "d:e:p:")) != -1)
+			{
+				switch(c)
+				{
+					case 'd':
+						date = string(optarg);
+						break;
+					case 'e':
+						emp = string(optarg);
+						break;
+					case 'p':
+						idEmp = string(optarg);
+						break;
+					default:
+						break;
+				}
+			}
+			
+			cout << "emp " << emp << endl;
+			cout << "date" << date << endl;
+			cout << "idEmp" << idEmp << endl;
+			
 		}
 		else
 		{
@@ -64,7 +164,24 @@ bool UserInterface::Login()
 	cin >> passwd;
 	EnableEcho(true);
 	cout << endl;
-	return (login=="root" && passwd=="toor");
+	string hash = picosha2::hash256_hex_string(login+":"+passwd);
+	
+	ifstream users("file/users.conf",ios::in);
+	if(!users)
+	{
+		cerr << "Le fichier \"users.conf\" n'existe pas" << endl;
+		return false;
+	}
+	
+	string user;
+	
+	while(users>>user)
+	{
+		if(user==hash)
+			return true;
+	}
+	return false;
+	
 }
 
 void UserInterface::EnableEcho(bool enable)
