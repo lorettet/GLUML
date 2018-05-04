@@ -33,14 +33,14 @@ using namespace std;
 		return name;
 	}
 
-    map<string, pair<double, double>> Disease::getNumAttribute()
+    pair<double, double> Disease::getNumAttribute(string name)
     {
-    	return numAttribute;
+    	return numAttribute[name];
     }
 
-    map<string, map<string, double>> Disease::getCarAttribute()
+    map<string, double> Disease::getCarAttribute(string name)
     {
-    	return catAttribute;
+    	return catAttribute[name];
     }
 
 //------------------------------------------------- Surcharge d'opérateurs

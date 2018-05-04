@@ -36,9 +36,9 @@ public:
 
     string getName();
 
-    map<string, pair<double, double>> getNumAttribute();
+    pair<double, double> getNumAttribute(string name);
 
-    map<string, map<string, double>> getCarAttribute();
+    map<string, double> getCarAttribute(string name);
 
 //------------------------------------------------- Surcharge d'opérateurs
     Disease & operator = ( const Disease & unDisease );

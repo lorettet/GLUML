@@ -34,9 +34,9 @@ public:
     // Contrat :
     //
 
-    map<string, double> getNumAttribute(); 
+    double getNumAttribute(string name); 
 
-    map<string, string> getCatAttribute();
+    string getCatAttribute(string name);
 
 //------------------------------------------------- Surcharge d'opérateurs
     HealthPrint & operator = ( const HealthPrint & unHealthPrint );

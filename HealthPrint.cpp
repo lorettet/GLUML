@@ -29,14 +29,14 @@ using namespace std;
 //{
 //} //----- Fin de Méthode
 
-	map<string, double> HealthPrint::getNumAttribute()
+	double HealthPrint::getNumAttribute(string name)
     {
-        return numAttribute;
+        return numAttribute[name];
     }
 
-    map<string, string> HealthPrint::getCatAttribute() 
+    string HealthPrint::getCatAttribute(string name) 
     {
-        return catAttribute;
+        return catAttribute[name];
     }
 
 //------------------------------------------------- Surcharge d'opérateurs
