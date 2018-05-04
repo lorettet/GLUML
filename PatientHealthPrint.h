@@ -12,7 +12,7 @@
 //---------------------------------------------------------------- INCLUDE
 #include "HealthPrint.h"
 //--------------------------------------------------- Interfaces utilisées
-
+#include <iostream>
 //------------------------------------------------------------- Constantes
 
 //------------------------------------------------------------------ Types
@@ -36,6 +36,8 @@ public:
     //
 
     map<string, double> getPatientDiseases(); 
+    
+    void display(ostream & stream = std::cout);
 
 //------------------------------------------------- Surcharge d'opérateurs
     PatientHealthPrint & operator = ( const PatientHealthPrint & unPatientHealthPrint );

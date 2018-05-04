@@ -41,7 +41,7 @@ using namespace std;
 
 
 //-------------------------------------------- Constructeurs - destructeur
-RefHealthPrint::RefHealthPrint ( const RefHealthPrint & unRefHealthPrint )
+RefHealthPrint::RefHealthPrint ( const RefHealthPrint & unRefHealthPrint ) : HealthPrint(unRefHealthPrint)
 // Algorithme :
 //
 {

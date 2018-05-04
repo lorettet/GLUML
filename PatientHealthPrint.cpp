@@ -33,6 +33,11 @@ using namespace std;
 	{
 		return diseases;
 	}
+	
+	void PatientHealthPrint::display(ostream & stream)
+	{
+		stream << "Afficher bien les attributs" << endl;
+	}
 
 //------------------------------------------------- Surcharge d'opérateurs
 //PatientHealthPrint & PatientHealthPrint::operator = ( const PatientHealthPrint & unPatientHealthPrint )
@@ -43,7 +48,7 @@ using namespace std;
 
 
 //-------------------------------------------- Constructeurs - destructeur
-PatientHealthPrint::PatientHealthPrint ( const PatientHealthPrint & unPatientHealthPrint )
+PatientHealthPrint::PatientHealthPrint ( const PatientHealthPrint & unPatientHealthPrint ) : HealthPrint(unPatientHealthPrint)
 // Algorithme :
 //
 {
