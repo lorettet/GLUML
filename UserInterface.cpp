@@ -3,6 +3,8 @@
 #include "lib/picosha2.h"
 #include <fstream>
 #include <unistd.h>
+#include "lib/split.h"
+#include "string.h"
 
 using namespace std;
 
@@ -44,14 +46,10 @@ void UserInterface::Run()
 		auto strs = split(s);
 		const auto cmd = strs[0];
 		const unsigned int nbArgs = strs.size();
-		for(auto i : strs)
-		{
-			cout << i;
-		}
-		cout << endl;
 		if(cmd=="?" || cmd=="help")
 		{
-			cout << "TODO : display help" << endl;
+			cout << "help"<<"\t\t\t"<<"Affiche l'aide"<<endl;
+			cout << "help"<<"\t\t\t"<<"Affiche l'aide"<<endl;
 		}
 		else if(cmd == "exit")
 		{
@@ -111,18 +109,18 @@ void UserInterface::Run()
 		else if(cmd == "aff-histo")
 		{
 			
-			const char* args[nbArgs];
+			char* args[nbArgs];
 			for(unsigned int i = 0; i<nbArgs; i++)
 			{
-				args[i] = (strs[i].c_str());
+				args[i] = strdup(strs[i].c_str());
 			}
 			string emp;
 			string date;
-			string idEmp;
+			string hp;
 			
 			int c;
 			
-			while((c = getopt(nbArgs, (char* const*)args, "d:e:p:")) != -1)
+			while((c = getopt(nbArgs, args, "d:e:h:")) != -1)
 			{
 				switch(c)
 				{
@@ -132,17 +130,29 @@ void UserInterface::Run()
 					case 'e':
 						emp = string(optarg);
 						break;
-					case 'p':
-						idEmp = string(optarg);
+					case 'h':
+						hp = string(optarg);
 						break;
 					default:
 						break;
 				}
 			}
+
+			cout << "emp : "<<emp<<endl;
+			cout << "date : "<<date<<endl;
+			cout << "hp : "<<hp<<endl;
 			
-			cout << "emp " << emp << endl;
-			cout << "date" << date << endl;
-			cout << "idEmp" << idEmp << endl;
+			
+			for(unsigned int i = 0; i<nbArgs; i++)
+			{
+				free(args[i]);
+			}
+			
+			// On reset la fonction optget
+			optind=1;
+			
+			//TODO : appelle à la fonction
+			cout << "TODO : appelle à la fonction" << endl;
 			
 		}
 		else
@@ -202,14 +212,3 @@ void UserInterface::EnableEcho(bool enable)
 	tcsetattr(0, TCSANOW, &t);
 }
 
-vector<string> UserInterface::split(string str, string sep)
-{
-	string token;
-	vector<string> res;
-	while(token != str){
-	  token = str.substr(0,str.find_first_of(sep));
-	  str = str.substr(str.find_first_of(sep) + 1);
-	  res.push_back(token);
-	}
-	return res;
-}
