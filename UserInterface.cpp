@@ -25,11 +25,13 @@ UserInterface::~UserInterface()
 void UserInterface::Run()
 {
 	cout << "lancement de l'appli" << endl;
+#ifdef LOGIN
 	if(!Login())
 	{
 		cerr << "Login ou mot de pass incorrect" << endl;
 		return;
 	}
+#endif
 	cout << "Connecté" << endl;
 	string s;
 	cin.clear();

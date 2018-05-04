@@ -3,8 +3,9 @@ COMP=g++
 EDL=g++
 RMFLAGS=-f
 COMPFLAGS = -ansi -pedantic  -Wall -std=c++11 -g
-#retirez yes pour compiler en release
+#make DEBUG=no pour compiler en release.
 DEBUG=yes
+LOGIN=yes
 EXE=application
 EXEPATH=./
 SRC=$(wildcard *.cpp)
@@ -12,9 +13,15 @@ OBJ=$(SRC:.cpp=.o)
 
 
 ifeq ($(DEBUG),yes)
-	DEFINE=-D MAP	
+	DEFINE_DEBUG=-D MAP	
 else
-	DEFINE=
+	DEFINE_DEBUG=
+endif
+
+ifeq ($(LOGIN),yes)
+	DEFINE_LOGIN=-D LOGIN
+else
+	DEFINE_LOGIN=
 endif
 
 all:$(EXEPATH)$(EXE)
@@ -23,7 +30,7 @@ $(EXEPATH)$(EXE): $(OBJ)
 	$(EDL) -o $(EXEPATH)$(EXE) $(OBJ)
 
 %.o: %.cpp
-	$(COMP) -c $< $(COMPFLAGS) $(DEFINE)
+	$(COMP) -c $< $(COMPFLAGS) $(DEFINE_DEBUG) $(DEFINE_LOGIN)
 	
 .PHONY:clean tests
 
