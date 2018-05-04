@@ -42,6 +42,8 @@ public:
 
     map<string,Disease> getKnownDiseases();
 
+    Disease getDisease(string name);
+
     void writeHistory(PatientHealthPrint PatientHp); 
 
     void showHistory(iostream out, string date, string idEmploye, string idHp);
@@ -61,7 +63,7 @@ public:
     // Contrat :
     //
 
-    Analyzer ( );
+    Analyzer ( string historyPath);
     // Mode d'emploi :
     //
     // Contrat :
@@ -87,6 +89,7 @@ private:
 
     int nbRefHp; 
     string historyPath;
+    map<string, Disease> diseases;
 
 protected:
 //----------------------------------------------------- Méthodes protégées

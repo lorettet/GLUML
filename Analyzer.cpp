@@ -30,7 +30,21 @@ using namespace std;
 //{
 //} //----- Fin de Méthode
 
+map<string,Disease> Analyzer::getKnownDiseases()
+{
+	return diseases;
+}
 
+Disease Analyzer::getDisease(string name)
+{
+	return diseases[name];
+}
+
+void Analyzer::writeHistory(PatientHealthPrint patientHp)
+{
+	ofstream ofs (historyPath);
+//	ofs << patientHp.display();
+}
 //------------------------------------------------- Surcharge d'opérateurs
 //Analyzer & Analyzer::operator = ( const Analyzer & unAnalyzer )
 // Algorithme :
@@ -50,7 +64,7 @@ Analyzer::Analyzer ( const Analyzer & unAnalyzer )
 } //----- Fin de Analyzer (constructeur de copie)
 
 
-Analyzer::Analyzer ( )
+Analyzer::Analyzer ( string historyPath)
 // Algorithme :
 //
 {
