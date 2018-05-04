@@ -48,8 +48,11 @@ void UserInterface::Run()
 		const unsigned int nbArgs = strs.size();
 		if(cmd=="?" || cmd=="help")
 		{
-			cout << "help"<<"\t\t\t"<<"Affiche l'aide"<<endl;
-			cout << "help"<<"\t\t\t"<<"Affiche l'aide"<<endl;
+			cout << "help"<<"\t\t\t\t"<<"Affiche l'aide"<<endl;
+			cout << "analys-emp file"<<"\t\t\t"<<"Analyse une liste d'empreintes"<<endl;
+			cout << "set-ref file"<<"\t\t\t"<<"Spécifie un fichier d'empreinte de référence"<<endl;
+			cout << "aff-maladie [nom]"<<"\t\t"<<"Affiche la liste de toutes les maladie ou les caractéristiques d'une malaide en particulier"<<endl;
+			cout << "aff-histo [-e nomEmp ] [-d jj/mm/aaaa] [-h empreinte]"<<"\t\t"<<"Affiche l'historique des analyses"<<endl;
 		}
 		else if(cmd == "exit")
 		{
