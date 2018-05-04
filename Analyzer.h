@@ -9,7 +9,9 @@
 //---------- Interface de la classe <Analyzer> (fichier Analyzer.h) ----------------
 #if ! defined ( ANALYZER_H )
 #define ANALYZER_H
-
+//---------------------------------------------------------------- INCLUDE
+#include "PatientHealthPrint.h"
+#include "Disease.h"
 //--------------------------------------------------- Interfaces utilisées
 
 //------------------------------------------------------------- Constantes
@@ -22,7 +24,7 @@
 //
 //------------------------------------------------------------------------
 
-class Analyzer : public Ancetre
+class Analyzer
 {
 //----------------------------------------------------------------- PUBLIC
 
@@ -34,13 +36,13 @@ public:
     // Contrat :
     //
 
-    void setRefFile(String refHpPath, String hpDescriptionPath);
+    void setRefFile(string refHpPath, string hpDescriptionPath);
 
-    List<PatientHp> analyze(String patientHpPath);
+    list<PatientHealthPrint> analyze(string patientHpPath);
 
-    List<Disease> getKnownDiseases();
+    map<string,Disease> getKnownDiseases();
 
-    void writeHistory(PatientHp PatientHp); 
+    void writeHistory(PatientHealthPrint PatientHp); 
 
     void showHistory(iostream out, string date, string idEmploye, string idHp);
 
@@ -77,9 +79,9 @@ public:
 private:
 //----------------------------------------------------- Méthodes privées
 
-    void makeDiseases(fis refHpStream);
+    void makeDiseases(ifstream refHpStream);
 
-    PatientHp searchDiseases(PatientHealthPrint PatientHp);
+    PatientHealthPrint searchDiseases(PatientHealthPrint PatientHp);
 
 //----------------------------------------------------- Attributs privées
 

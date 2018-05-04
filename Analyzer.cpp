@@ -13,7 +13,9 @@
 //-------------------------------------------------------- Include système
 using namespace std;
 #include <iostream>
-
+#include <fstream>
+#include <map>
+#include <list>
 //------------------------------------------------------ Include personnel
 #include "Analyzer.h"
 
@@ -30,11 +32,11 @@ using namespace std;
 
 
 //------------------------------------------------- Surcharge d'opérateurs
-Analyzer & Analyzer::operator = ( const Analyzer & unAnalyzer )
+//Analyzer & Analyzer::operator = ( const Analyzer & unAnalyzer )
 // Algorithme :
 //
-{
-} //----- Fin de operator =
+//{
+//} //----- Fin de operator =
 
 
 //-------------------------------------------- Constructeurs - destructeur
