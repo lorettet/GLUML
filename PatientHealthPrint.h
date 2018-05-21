@@ -54,7 +54,7 @@ public:
     // Contrat :
     //
 
-    PatientHealthPrint ( string line );
+    PatientHealthPrint ( string line, vector<string> & labelOrder );
     // Mode d'emploi :
     //
     // Contrat :

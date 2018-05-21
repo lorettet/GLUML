@@ -1,9 +1,12 @@
+#if ! defined (SPLIT_H)
+#define SPLIT_H
+
 #include <string>
 #include <vector>
 
 using namespace std;
 
-vector<string> split(string str, string sep = " ")
+inline vector<string> split(string str, string sep = " ")
 {
 	string token;
 	vector<string> res;
@@ -23,3 +26,5 @@ vector<string> split(string str, string sep = " ")
 	}
 	return res;
 }
+
+#endif /* split.h */

@@ -33,16 +33,64 @@ using namespace std;
 		return name;
 	}
 
-    pair<double, double> Disease::getNumAttribute(string name)
+    map<string,pair<double, double>> Disease::getNumAttribute()
     {
-    	return numAttribute[name];
+    	return numAttribute;
     }
 
-    map<string, double> Disease::getCarAttribute(string name)
+    map<string,map<string, double>> Disease::getCatAttribute()
     {
-    	return catAttribute[name];
+    	return catAttribute;
     }
-
+    
+    int Disease::getNbSickPeople()
+    {
+		return nbSickPeople;
+	}
+    
+    void Disease::incrNbSickPeople()
+    {
+		nbSickPeople++;
+	}
+	
+	void Disease::incrCatAttribute(string name, string value){
+		catAttribute[name][value]++;
+	}
+	
+	void Disease::setPercentagesCatAttribute(){
+		for(auto & attr : catAttribute)
+		{
+			for(auto & value : attr.second)
+			{
+				value.second = value.second / (double) nbSickPeople;
+			}
+		}
+	}
+	
+	void Disease::addNumAttribute(string name, double avg, double sd){
+		numAttribute[name] = make_pair(avg,sd);
+	}
+	
+	void Disease::display(ostream & os)
+	{
+		os << "-----------" << name << "--------------" << endl ;
+		os << "NB SICKED PEOPLE : " << nbSickPeople << endl;
+		os << "NUM ATTRIBUTE--------------" << endl ;
+		for( auto elem : numAttribute)
+		{
+			os << elem.first << " :  avg = " << elem.second.first <<" | sd = " << elem.second.second << endl;
+		}
+		
+		os << "CAT ATTRIBUTE--------------" << endl ;
+		for( auto elem : catAttribute)
+		{
+			os << elem.first << endl;
+			for( auto value : elem.second)
+			{
+				os << " :  valueAttr = " << value.first <<" | percentage = " << value.second << endl;
+			}
+		}
+	}
 //------------------------------------------------- Surcharge d'opérateurs
 //Disease & Disease::operator = ( const Disease & unDisease )
 // Algorithme :
@@ -52,20 +100,31 @@ using namespace std;
 
 
 //-------------------------------------------- Constructeurs - destructeur
-Disease::Disease ( const Disease & unDisease )
+/*Disease::Disease ( const Disease & unDisease )
 // Algorithme :
 //
 {
 #ifdef MAP
     cout << "Appel au constructeur de copie de <Disease>" << endl;
 #endif
-} //----- Fin de Disease (constructeur de copie)
+} //----- Fin de Disease (constructeur de copie)*/
 
+
+Disease::Disease (string name_d) : name(name_d)
+// Algorithme :
+//
+{
+	nbSickPeople = 0;
+#ifdef MAP
+    cout << "Appel au constructeur de <Disease>" << endl;
+#endif
+} //----- Fin de Disease
 
 Disease::Disease ()
 // Algorithme :
 //
 {
+	nbSickPeople = 0;
 #ifdef MAP
     cout << "Appel au constructeur de <Disease>" << endl;
 #endif

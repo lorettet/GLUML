@@ -58,7 +58,7 @@ PatientHealthPrint::PatientHealthPrint ( const PatientHealthPrint & unPatientHea
 } //----- Fin de PatientHealthPrint (constructeur de copie)
 
 
-PatientHealthPrint::PatientHealthPrint ( string line ): HealthPrint(line)
+PatientHealthPrint::PatientHealthPrint ( string line, vector<string> & labelOrder ): HealthPrint(line, labelOrder)
 // Algorithme :
 //
 {

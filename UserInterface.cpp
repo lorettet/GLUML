@@ -13,6 +13,7 @@ UserInterface::UserInterface()
 #ifdef MAP
 	cout << "[DEBUG] Constuction de UserInterface" << endl;
 #endif
+	analyzer = new Analyzer(defaultHisto);
 }
 
 UserInterface::~UserInterface()
@@ -20,6 +21,7 @@ UserInterface::~UserInterface()
 #ifdef MAP
 	cout << "[DEGUB] Destruction de UserInterface" << endl;
 #endif
+	delete analyzer;
 }
 
 void UserInterface::Run()
@@ -82,11 +84,11 @@ void UserInterface::Run()
 			switch(nbArgs)
 			{
 				case 1:
-					//TODO : mettre le bon appel
-					cerr << "Vous devez spécifier un fichier" << endl;
-					break;
 				case 2:
-					//TODO : mettre le bon appel
+					cerr << "Vous devez spécifier deux fichier" << endl;
+					break;
+				case 3:
+					analyzer->setRefFile("data/test.txt","data/HealthMeasurementDescription.txt");
 					cout << "changement de ref"<< endl;
 					break;
 				default:

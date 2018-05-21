@@ -16,6 +16,7 @@ using namespace std;
 #include <map>
 //------------------------------------------------------ Include personnel
 #include "RefHealthPrint.h"
+#include "lib/split.h"
 //------------------------------------------------------------- Constantes
 
 //----------------------------------------------------------------- PUBLIC
@@ -31,6 +32,12 @@ using namespace std;
 	{
 		return disease;
 	}
+	
+	void RefHealthPrint::display()
+	{
+		cout << "name : " << disease << endl;
+		HealthPrint::display();
+	}
 
 //------------------------------------------------- Surcharge d'opérateurs
 //RefHealthPrint & RefHealthPrint::operator = ( const RefHealthPrint & unRefHealthPrint )
@@ -41,23 +48,36 @@ using namespace std;
 
 
 //-------------------------------------------- Constructeurs - destructeur
-RefHealthPrint::RefHealthPrint ( const RefHealthPrint & unRefHealthPrint ) : HealthPrint(unRefHealthPrint)
+/*RefHealthPrint::RefHealthPrint ( const RefHealthPrint & unRefHealthPrint ) : HealthPrint(unRefHealthPrint)
 // Algorithme :
 //
 {
 #ifdef MAP
     cout << "Appel au constructeur de copie de <RefHealthPrint>" << endl;
 #endif
-} //----- Fin de RefHealthPrint (constructeur de copie)
+} //----- Fin de RefHealthPrint (constructeur de copie)*/
 
 
-RefHealthPrint::RefHealthPrint ( string line ): HealthPrint(line)
+RefHealthPrint::RefHealthPrint ( string line , vector<string> & labelOrder): HealthPrint(line, labelOrder)
 // Algorithme :
 //
 {
 #ifdef MAP
     cout << "Appel au constructeur de <RefHealthPrint>" << endl;
 #endif
+
+	int indexDiseaseName = 0;
+	
+	while(labelOrder[indexDiseaseName] != "Disease" ) indexDiseaseName++;
+	
+	vector<string> attributes = split(line,";");
+	if(attributes.size() != labelOrder.size()) 
+		disease = "safe";
+	else
+	{	
+		disease = attributes[indexDiseaseName];
+	}
+
 } //----- Fin de RefHealthPrint
 
 

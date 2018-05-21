@@ -1,5 +1,6 @@
 #include <iostream>
 #include <vector>
+#include "Analyzer.h"
 
 class UserInterface
 {
@@ -10,6 +11,8 @@ class UserInterface
 
 		// variables
 		const std::string prompt = "> ";
+		const std::string defaultHisto = "./Historique.txt";
+		Analyzer* analyzer;
 
 	public:
 		UserInterface();

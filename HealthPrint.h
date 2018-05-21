@@ -11,7 +11,11 @@
 #define HEALTHPRINT_H
 
 //--------------------------------------------------- Interfaces utilisées
+#include <map>
+#include <list>
+#include <vector>
 
+using namespace std;
 //------------------------------------------------------------- Constantes
 
 //------------------------------------------------------------------ Types
@@ -34,9 +38,13 @@ public:
     // Contrat :
     //
 
-    double getNumAttribute(string name); 
+    map<string, double> getNumAttribute(); 
 
-    string getCatAttribute(string name);
+    map<string, string> getCatAttribute();
+    
+    string getNoID();
+    
+    virtual void display();
 
 //------------------------------------------------- Surcharge d'opérateurs
     HealthPrint & operator = ( const HealthPrint & unHealthPrint );
@@ -47,13 +55,13 @@ public:
 
 
 //-------------------------------------------- Constructeurs - destructeur
-    HealthPrint ( const HealthPrint & unHealthPrint );
+    //HealthPrint ( const HealthPrint & unHealthPrint );
     // Mode d'emploi (constructeur de copie) :
     //
     // Contrat :
     //
 
-    HealthPrint (string line);
+    HealthPrint (string line, vector<string> & labelOrder);
     // Mode d'emploi :
     //
     // Contrat :
@@ -75,6 +83,7 @@ protected:
 //----------------------------------------------------- Attributs protégés
     map<string, double> numAttribute;
     map<string, string> catAttribute;
+    string noID;
 };
 
 //-------------------------------- Autres définitions dépendantes de <HealthPrint>

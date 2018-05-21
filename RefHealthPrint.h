@@ -36,6 +36,8 @@ public:
     //
 
     string getDisease();
+    
+    virtual void display();
 
 //------------------------------------------------- Surcharge d'opérateurs
     RefHealthPrint & operator = ( const RefHealthPrint & unRefHealthPrint );
@@ -46,13 +48,13 @@ public:
 
 
 //-------------------------------------------- Constructeurs - destructeur
-    RefHealthPrint ( const RefHealthPrint & unRefHealthPrint );
+    //RefHealthPrint ( const RefHealthPrint & unRefHealthPrint );
     // Mode d'emploi (constructeur de copie) :
     //
     // Contrat :
     //
 
-    RefHealthPrint ( string line );
+    RefHealthPrint ( string line, vector<string> & labelOrder );
     // Mode d'emploi :
     //
     // Contrat :

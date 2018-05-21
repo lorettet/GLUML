@@ -11,7 +11,7 @@
 #define DISEASE_H
 
 //--------------------------------------------------- Interfaces utilisées
-
+#include <iostream>
 //------------------------------------------------------------- Constantes
 
 //------------------------------------------------------------------ Types
@@ -36,21 +36,35 @@ public:
 
     string getName();
 
-    pair<double, double> getNumAttribute(string name);
+    map<string,pair<double, double>> getNumAttribute();
 
-    map<string, double> getCarAttribute(string name);
+    map<string,map<string, double>> getCatAttribute();
+    
+    void incrNbSickPeople();
+    
+    int getNbSickPeople();
+    
+    void display(ostream & os = std::cout);
+    
+    void incrCatAttribute(string name, string value);
+    
+    void setPercentagesCatAttribute();
+    
+    void addNumAttribute(string name, double avg, double sd);
 
 //------------------------------------------------- Surcharge d'opérateurs
-    Disease & operator = ( const Disease & unDisease );
-    // Mode d'emploi :
+
+
+
+//-------------------------------------------- Constructeurs - destructeur
+    //Disease ( const Disease & unDisease );
+    // Mode d'emploi (constructeur de copie) :
     //
     // Contrat :
     //
 
-
-//-------------------------------------------- Constructeurs - destructeur
-    Disease ( const Disease & unDisease );
-    // Mode d'emploi (constructeur de copie) :
+    Disease ( std::string name_d);
+    // Mode d'emploi :
     //
     // Contrat :
     //

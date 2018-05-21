@@ -17,7 +17,8 @@ using namespace std;
 #include <string>
 //------------------------------------------------------ Include personnel
 #include "HealthPrint.h"
-
+#include "lib/split.h"
+#include "Analyzer.h"
 //------------------------------------------------------------- Constantes
 
 //----------------------------------------------------------------- PUBLIC
@@ -29,15 +30,35 @@ using namespace std;
 //{
 //} //----- Fin de Méthode
 
-	double HealthPrint::getNumAttribute(string name)
+	map<string, double> HealthPrint::getNumAttribute()
     {
-        return numAttribute[name];
+        return numAttribute;
     }
 
-    string HealthPrint::getCatAttribute(string name) 
+    map<string, string> HealthPrint::getCatAttribute() 
     {
-        return catAttribute[name];
+        return catAttribute;
     }
+    
+     void HealthPrint::display()
+    {
+		cout << "id : " << noID << endl;
+		cout << "---------- NUM --------------" << endl;
+		for(auto elem : numAttribute)
+		{
+			cout << elem.first << " : " << elem.second << endl;
+		}
+		
+		cout << "---------- CAT --------------" << endl;
+		for(auto elem : catAttribute)
+		{
+			cout << elem.first << " : " << elem.second << endl;
+		}
+	}
+	
+	string HealthPrint::getNoID(){
+		return noID;
+	}
 
 //------------------------------------------------- Surcharge d'opérateurs
 //HealthPrint & HealthPrint::operator = ( const HealthPrint & unHealthPrint )
@@ -48,7 +69,7 @@ using namespace std;
 
 
 //-------------------------------------------- Constructeurs - destructeur
-HealthPrint::HealthPrint ( const HealthPrint & unHealthPrint )
+/*HealthPrint::HealthPrint ( const HealthPrint & unHealthPrint )
 // Algorithme :
 //
 {
@@ -56,16 +77,37 @@ HealthPrint::HealthPrint ( const HealthPrint & unHealthPrint )
     cout << "Appel au constructeur de copie de <HealthPrint>" << endl;
 #endif
 } //----- Fin de HealthPrint (constructeur de copie)
+*/
 
-
-HealthPrint::HealthPrint ( string line)
+HealthPrint::HealthPrint ( string line, vector<string> & labelOrder)
 // Algorithme :
 //
 {
-	//TODO
 #ifdef MAP
     cout << "Appel au constructeur de <HealthPrint>" << endl;
 #endif
+	auto attributes = split(line,";");
+	
+	int index = 0;
+	for(auto label : labelOrder)
+	{
+		string type = Analyzer::hpDescription[label];
+		
+		if(type == "ID")
+		{
+			noID = attributes[index];
+		}
+		else if(type == "double")
+		{
+			
+			numAttribute[label] = stod(attributes[index]);
+		}
+		else if(type == "string")
+		{ 
+			catAttribute[label] = attributes[index];
+		}
+		index++;
+	}
 } //----- Fin de HealthPrint
 
 

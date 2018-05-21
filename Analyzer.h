@@ -63,7 +63,7 @@ public:
     // Contrat :
     //
 
-    Analyzer ( string historyPath);
+    Analyzer ( string histPath);
     // Mode d'emploi :
     //
     // Contrat :
@@ -81,7 +81,7 @@ public:
 private:
 //----------------------------------------------------- Méthodes privées
 
-    void makeDiseases(ifstream refHpStream);
+    void makeDiseases(ifstream & refHpStream);
 
     PatientHealthPrint searchDiseases(PatientHealthPrint PatientHp);
 
@@ -89,7 +89,7 @@ private:
 
     int nbRefHp; 
     string historyPath;
-    map<string, Disease> diseases;
+    map<string, Disease> diseaseList;
 
 protected:
 //----------------------------------------------------- Méthodes protégées
