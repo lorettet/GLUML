@@ -17,6 +17,7 @@ using namespace std;
 #include <map>
 #include <list>
 #include <vector>
+#include <math.h>
 //------------------------------------------------------ Include personnel
 #include "Analyzer.h"
 #include "lib/split.h"
@@ -202,6 +203,8 @@ void Analyzer::makeDiseases(ifstream & refHpStream)
 				t_moy[attr.first] += attr.second;
 				t_ec[attr.first] += (attr.second*attr.second);
 				
+				cout <<	"		CALCUL val " << attr.second << " au carre " << (attr.second*attr.second) << endl;
+				
 				//debug
 				cout << "		TEST name attr = " << attr.first << " moy = " << t_moy[attr.first] << " ec = " << t_ec[attr.first] << endl;
 				//
@@ -219,9 +222,13 @@ void Analyzer::makeDiseases(ifstream & refHpStream)
 		
 		for(auto & elem : t_ec)
 		{
+			cout << "			CALCUL variance " <<  (elem.second / (double)d.getNbSickPeople()) << " - " << t_moy[elem.first]*t_moy[elem.first] << endl;
 			elem.second = (elem.second / (double)d.getNbSickPeople()) - (t_moy[elem.first]*t_moy[elem.first]);
+			elem.second = sqrt(elem.second);
 			//debug
 			cout << "		TEST name attr = " << elem.first << " ec = " << elem.second << endl;
+			
+			cout << " test val " << elem.second  << " < " << t_moy[elem.first]/2 << endl;
 			//
 			if(elem.second < t_moy[elem.first]/2)
 			{
