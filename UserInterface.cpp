@@ -88,7 +88,7 @@ void UserInterface::Run()
 					cerr << "Vous devez spécifier deux fichier" << endl;
 					break;
 				case 3:
-					analyzer->setRefFile("data/test.txt","data/HealthMeasurementDescription.txt");
+					analyzer->setRefFile(strs[1],"data/HealthMeasurementDescription.txt");
 					cout << "changement de ref"<< endl;
 					break;
 				default:

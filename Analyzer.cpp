@@ -160,76 +160,50 @@ void Analyzer::makeDiseases(ifstream & refHpStream)
 		string name = refHp.getDisease();
 		
 		diseaseHpMap[name].push_back(refHp);
-
 	}
 	
-	map<string,double> t_moy;
-	map<string,double> t_ec;
+	for(auto & vec : diseaseHpMap)
+	{
+		cout << "DISEASE : " << vec.first << endl;
+		for (auto & hp : vec.second)
+		{
+			hp.display();
+		}
+	}
+	
+
 	
 	for(auto hpref : diseaseHpMap) // map<string "nom maladie", vector<RefHealthPrint> "empreintes associées">
 	{
+		
+		map<string,double> t_moy;
+		map<string,double> t_ec;
 		Disease d(hpref.first);
 		
-		//debug
-		cout << "TEST MALADIE " << hpref.first << endl;
-		//
-		
 		for(auto hp : hpref.second) //vector<RefHealthPrint> "empreintes associées"
-		{
-			//debug
-			cout << "	TEST NB HP " << hp.getNoID() << endl;
-			//
-			
+		{	
 			
 			for(auto attr : hp.getCatAttribute()) // map <string "name attribute", string "valeur attribut">
 			{
-				//debug
-				cout << "		TEST name attr = " << attr.first << " value attr = " << attr.second;
-				//
-				
 				d.incrCatAttribute(attr.first,attr.second);
-				
-				//debug
-				cout << " nb pers = " << d.getCatAttribute()[attr.first][attr.second] << endl;
-				//
 			}
 
 			for(auto attr : hp.getNumAttribute()) // map <string "name attribute", double "valeur attribut">
 			{
-				//debug
-				cout << "	TEST NB HP " << hp.getNoID() << endl;
-				//
-			
 				t_moy[attr.first] += attr.second;
 				t_ec[attr.first] += (attr.second*attr.second);
-				
-				cout <<	"		CALCUL val " << attr.second << " au carre " << (attr.second*attr.second) << endl;
-				
-				//debug
-				cout << "		TEST name attr = " << attr.first << " moy = " << t_moy[attr.first] << " ec = " << t_ec[attr.first] << endl;
-				//
 			}
 			d.incrNbSickPeople();
-			cout <<"NB SICK : " << d.getNbSickPeople() <<endl;
 		}
 		for(auto & elem : t_moy)
 		{
 			elem.second = elem.second / (double)d.getNbSickPeople();
-			//debug
-			cout << "		TEST name attr = " << elem.first << " moy = " << elem.second << endl;
-			//
 		}
 		
 		for(auto & elem : t_ec)
 		{
-			cout << "			CALCUL variance " <<  (elem.second / (double)d.getNbSickPeople()) << " - " << t_moy[elem.first]*t_moy[elem.first] << endl;
 			elem.second = (elem.second / (double)d.getNbSickPeople()) - (t_moy[elem.first]*t_moy[elem.first]);
 			elem.second = sqrt(elem.second);
-			//debug
-			cout << "		TEST name attr = " << elem.first << " ec = " << elem.second << endl;
-			
-			cout << " test val " << elem.second  << " < " << t_moy[elem.first]/2 << endl;
-			//
 			if(elem.second < t_moy[elem.first]/2)
 			{
 				d.addNumAttribute(elem.first, t_moy[elem.first], elem.second);
@@ -237,14 +211,6 @@ void Analyzer::makeDiseases(ifstream & refHpStream)
 		}
 		
 		d.setPercentagesCatAttribute();
-		//for(auto & attr : d.getCatAttribute())
-		//{
-			//for(auto & value : attr.second)
-			//{
-				//value.second = value.second / (double)d.getNbSickPeople();
-			//}
-		//}
-		
 		diseaseList[hpref.first] = d;
 		d.display();
 		
