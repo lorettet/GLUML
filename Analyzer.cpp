@@ -172,20 +172,12 @@ void Analyzer::makeDiseases(ifstream & refHpStream)
 		diseaseHpMap[name].push_back(refHp);
 	}
 	
-	for(auto & vec : diseaseHpMap)
-	{
-		cout << "DISEASE : " << vec.first << endl;
-		for (auto & hp : vec.second)
-		{
-			hp.display();
-		}
-	}
-	
-
+	cout << diseaseHpMap.size() << " maladies" << endl;
 	
 	for(auto hpref : diseaseHpMap) // map<string "nom maladie", vector<RefHealthPrint> "empreintes associées">
 	{
-		
+		cout << "Analyse pour " << hpref.first;
+		auto startTime = clock();
 		map<string,double> t_moy;
 		map<string,double> t_ec;
 		Disease d(hpref.first);
@@ -222,8 +214,10 @@ void Analyzer::makeDiseases(ifstream & refHpStream)
 		
 		d.setPercentagesCatAttribute();
 		diseaseList[hpref.first] = d;
-		d.display();
 		
+		auto endTime = clock();
+		double time = (double)(endTime-startTime)/ CLOCKS_PER_SEC;
+		cout << " faite en " <<time << "s" << endl;
 		
 	}
 	
