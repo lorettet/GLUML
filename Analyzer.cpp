@@ -43,10 +43,20 @@ Disease Analyzer::getDisease(string name)
 	return diseaseList[name];
 }
 
-void Analyzer::writeHistory(PatientHealthPrint patientHp)
+void Analyzer::writeHistory(PatientHealthPrint patientHp)//TODO
 {
 	ofstream ofs (historyPath);
 //	ofs << patientHp.display();
+}
+
+void Analyzer::showHistory(iostream out, string date, string idEmploye, string idHp)//TODO
+{
+
+}
+
+list<PatientHealthPrint> Analyzer::analyze(string patientHpPath)
+{
+	PatientHealthPrint patientHp;
 }
 //------------------------------------------------- Surcharge d'opérateurs
 //Analyzer & Analyzer::operator = ( const Analyzer & unAnalyzer )
@@ -220,6 +230,10 @@ void Analyzer::makeDiseases(ifstream & refHpStream)
 	
 }
 
+PatientHealthPrint Analyzer::searchDiseases(PatientHealthPrint PatientHp)
+{
+
+}
 
 //------------------------------------------------------------------ PRIVE
 
