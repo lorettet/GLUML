@@ -67,9 +67,9 @@ void Analyzer::showHistory(ostream & out, string date, string idEmploye, string 
 		string _idEmp = strs[2];
 		
 		// check filter
-		if(idEmploye != "" && idEmploye!=_idEmp) continue;
-		if(idHp != "" && idHp!=_idHp) continue;
-		if(date != "" && date!=_date) continue;
+		if(idEmploye != "" && idEmploye!=_idEmp) {ifs>>hpLine;continue;}
+		if(idHp != "" && idHp!=_idHp) {ifs>>hpLine;continue;}
+		if(date != "" && date!=_date) {ifs>>hpLine;continue;}
 		
 		out << "Employé : " << _idEmp;
 		out << " | Id : " << _idHp;
@@ -94,7 +94,7 @@ void Analyzer::showHistory(ostream & out, string date, string idEmploye, string 
 	}
 }	
 
-list<PatientHealthPrint> Analyzer::analyze(string patientHpPath)
+vector<PatientHealthPrint> Analyzer::analyze(string patientHpPath)
 {
 
 	ifstream ifs (patientHpPath);
@@ -107,7 +107,7 @@ list<PatientHealthPrint> Analyzer::analyze(string patientHpPath)
 
 	vector<string> labelOrder = split(firstLine,";");
 
-	list<PatientHealthPrint> resultList;
+	vector<PatientHealthPrint> resultList;
 
 	string line;
 
@@ -115,9 +115,9 @@ list<PatientHealthPrint> Analyzer::analyze(string patientHpPath)
 	{
 		cout << "analyse" << endl;
 		PatientHealthPrint patientHp (line, labelOrder);
-		resultList.push_back(patientHp);
 		searchDiseases(patientHp);
 		writeHistory(patientHp);
+		resultList.push_back(patientHp);
 	}
 
 	return resultList;
@@ -347,6 +347,8 @@ void Analyzer::searchDiseases(PatientHealthPrint & PatientHp)
 
 		PatientHp.setDiseasePercent(d.first, percent/nbAtt);
 	}
+	
+	
 }
 
 void Analyzer::setUsername(string name)

@@ -55,11 +55,6 @@ public:
 
 
 //-------------------------------------------- Constructeurs - destructeur
-    //HealthPrint ( const HealthPrint & unHealthPrint );
-    // Mode d'emploi (constructeur de copie) :
-    //
-    // Contrat :
-    //
 
     HealthPrint (string line, vector<string> & labelOrder);
     // Mode d'emploi :

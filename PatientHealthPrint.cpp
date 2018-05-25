@@ -37,23 +37,23 @@ using namespace std;
 	void PatientHealthPrint::display(ostream & stream)
 	{
 
-		cout << noID << endl;
-		for(auto dis : diseases)
-		{
-			cout << dis.first << " : " << dis.second << endl;
-		}
-
+		stream << "Id : " << noID << endl;
+		stream << "ATTRIBUTES NUM : " << endl;
 		for(auto dis : numAttribute)
 		{
-			cout << dis.first << " : " << dis.second << endl;
+			cout << "\t" << dis.first << " : " << dis.second << endl;
 		}
-
+		stream << "ATTRIBUTES CAT : " << endl;
 		for(auto dis : catAttribute)
 		{
-			cout << dis.first << " : " << dis.second << endl;
+			cout << "\t" << dis.first << " : " << dis.second << endl;
 		}
-
-		stream << "Afficher bien les attributs" << endl;
+		
+		stream << "DISEASE PROBABILITIES : " << endl;
+		for(auto dis : diseases)
+		{
+			cout << "\t" << dis.first << " : " << dis.second << endl;
+		}
 	}
 
 
@@ -70,15 +70,6 @@ using namespace std;
 
 
 //-------------------------------------------- Constructeurs - destructeur
-PatientHealthPrint::PatientHealthPrint ( const PatientHealthPrint & unPatientHealthPrint ) : HealthPrint(unPatientHealthPrint)
-// Algorithme :
-//
-{
-#ifdef MAP
-    cout << "Appel au constructeur de copie de <PatientHealthPrint>" << endl;
-#endif
-} //----- Fin de PatientHealthPrint (constructeur de copie)
-
 
 PatientHealthPrint::PatientHealthPrint ( string line, vector<string> & labelOrder ): HealthPrint(line, labelOrder)
 // Algorithme :

@@ -38,7 +38,7 @@ public:
 
     void setRefFile(string refHpPath, string hpDescriptionPath);
 
-    list<PatientHealthPrint> analyze(string patientHpPath);
+    vector<PatientHealthPrint> analyze(string patientHpPath);
 
     map<string,Disease> getKnownDiseases();
 

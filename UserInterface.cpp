@@ -115,8 +115,14 @@ void UserInterface::Run()
 					cerr << "Vous devez spécifier un fichier" << endl;
 					break;
 				case 2:
-					analyzer.analyze(strs[1]);
-					cout << "Traitement des analyses"<< endl;
+					{
+						auto listResp = analyzer.analyze(strs[1]);
+						for(auto & hp : listResp)
+						{
+							hp.display();
+							cout << "--------------------------------------------" << endl;
+						}
+					}
 					break;
 				default:
 					cerr << "Too many arguments" << endl;
