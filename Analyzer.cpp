@@ -56,7 +56,28 @@ void Analyzer::showHistory(iostream out, string date, string idEmploye, string i
 
 list<PatientHealthPrint> Analyzer::analyze(string patientHpPath)
 {
-	PatientHealthPrint patientHp;
+
+	ifstream ifs (patientHpPath);
+
+	string firstLine;
+	
+	ifs >> firstLine;
+	
+	vector<string> labelOrder = split(firstLine,";");
+
+	list<PatientHealthPrint> resultList;
+
+	string line;
+
+	while(ifs >> line)
+	{
+
+	PatientHealthPrint patientHp (line, labelOrder);
+	resultList.push_back(patientHp);
+
+	}
+
+	return resultList;
 }
 //------------------------------------------------- Surcharge d'opérateurs
 //Analyzer & Analyzer::operator = ( const Analyzer & unAnalyzer )
@@ -224,7 +245,7 @@ void Analyzer::makeDiseases(ifstream & refHpStream)
 	
 }
 
-PatientHealthPrint Analyzer::searchDiseases(PatientHealthPrint PatientHp)
+void Analyzer::searchDiseases(PatientHealthPrint PatientHp)
 {
 
 }

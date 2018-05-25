@@ -83,7 +83,7 @@ private:
 
     void makeDiseases(ifstream & refHpStream);
 
-    PatientHealthPrint searchDiseases(PatientHealthPrint PatientHp);
+    void searchDiseases(PatientHealthPrint PatientHp);
 
 //----------------------------------------------------- Attributs privées
 
