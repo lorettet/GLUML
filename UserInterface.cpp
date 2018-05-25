@@ -88,8 +88,7 @@ void UserInterface::Run()
 					cerr << "Vous devez spécifier deux fichier" << endl;
 					break;
 				case 3:
-					analyzer->setRefFile(strs[1],"data/HealthMeasurementDescription.txt");
-					cout << "changement de ref"<< endl;
+					analyzer->setRefFile(strs[1],strs[2]);
 					break;
 				default:
 					cerr << "Too many arguments" << endl;
