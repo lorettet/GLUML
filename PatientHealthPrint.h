@@ -39,6 +39,7 @@ public:
     
     void display(ostream & stream = std::cout);
 
+    void setDiseasePercent(string name, double value);
 //------------------------------------------------- Surcharge d'opérateurs
     PatientHealthPrint & operator = ( const PatientHealthPrint & unPatientHealthPrint );
     // Mode d'emploi :

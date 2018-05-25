@@ -44,7 +44,7 @@ public:
 
     Disease getDisease(string name);
 
-    void writeHistory(PatientHealthPrint PatientHp); 
+    void writeHistory(PatientHealthPrint &PatientHp); 
 
     void showHistory(iostream out, string date, string idEmploye, string idHp);
 
@@ -83,7 +83,7 @@ private:
 
     void makeDiseases(ifstream & refHpStream);
 
-    void searchDiseases(PatientHealthPrint PatientHp);
+    void searchDiseases(PatientHealthPrint &PatientHp);
 
 //----------------------------------------------------- Attributs privées
 

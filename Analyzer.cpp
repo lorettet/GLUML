@@ -43,7 +43,7 @@ Disease Analyzer::getDisease(string name)
 	return diseaseList[name];
 }
 
-void Analyzer::writeHistory(PatientHealthPrint patientHp)//TODO
+void Analyzer::writeHistory(PatientHealthPrint &patientHp)//TODO
 {
 	ofstream ofs (historyPath);
 //	ofs << patientHp.display();
@@ -63,6 +63,8 @@ list<PatientHealthPrint> Analyzer::analyze(string patientHpPath)
 	
 	ifs >> firstLine;
 	
+	cout << firstLine << endl;
+
 	vector<string> labelOrder = split(firstLine,";");
 
 	list<PatientHealthPrint> resultList;
@@ -71,10 +73,11 @@ list<PatientHealthPrint> Analyzer::analyze(string patientHpPath)
 
 	while(ifs >> line)
 	{
-
-	PatientHealthPrint patientHp (line, labelOrder);
-	resultList.push_back(patientHp);
-
+		cout << "analyse" << endl;
+		PatientHealthPrint patientHp (line, labelOrder);
+		resultList.push_back(patientHp);
+		searchDiseases(patientHp);
+		writeHistory(patientHp);
 	}
 
 	return resultList;
@@ -245,9 +248,65 @@ void Analyzer::makeDiseases(ifstream & refHpStream)
 	
 }
 
-void Analyzer::searchDiseases(PatientHealthPrint PatientHp)
+void Analyzer::searchDiseases(PatientHealthPrint & PatientHp)
 {
+	int nbAtt;
+	double percent;
+	double vNum;// = 0;
+	string vCat;
+	double avg;
+	double sd;
 
+	auto patientNumMap = PatientHp.getNumAttribute();
+	auto patientCatMap = PatientHp.getCatAttribute();
+
+	for(auto d : diseaseList)
+	{
+		nbAtt = 0;
+		percent = 0;
+
+		for(auto a : d.second.getNumAttribute())
+		{
+			if(patientNumMap.find(a.first) != patientNumMap.end())
+			{
+				vNum = patientNumMap[a.first];
+			}
+			else continue;
+			
+			avg = a.second.first; 
+			sd = a.second.second;
+
+			if(vNum > avg-sd && vNum < avg+sd)
+			{
+				if(vNum > avg)
+				{
+					percent += (vNum - avg)*(-0.5/sd) +1;
+				}else
+				{
+					percent += (vNum - avg)*(0.5/sd) +1;
+				}
+			}
+			nbAtt++;
+		}
+
+		for(auto a : d.second.getCatAttribute())
+		{
+			if(patientCatMap.find(a.first) != patientCatMap.end())
+			{
+				vCat = patientCatMap[a.first];
+			}
+			else continue;
+			
+			if(a.second.find(vCat) != a.second.end())
+			{
+				percent += a.second[vCat];
+			}
+
+			nbAtt++;
+		}
+
+		PatientHp.setDiseasePercent(d.first, percent/nbAtt);
+	}
 }
 
 //------------------------------------------------------------------ PRIVE

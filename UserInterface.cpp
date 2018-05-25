@@ -111,11 +111,10 @@ void UserInterface::Run()
 			switch(nbArgs)
 			{
 				case 1:
-					//TODO : mettre le bon appel
 					cerr << "Vous devez spécifier un fichier" << endl;
 					break;
 				case 2:
-					//TODO : mettre le bon appel
+					analyzer->analyze(strs[1]);
 					cout << "Traitement des analyses"<< endl;
 					break;
 				default:

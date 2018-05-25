@@ -36,9 +36,31 @@ using namespace std;
 	
 	void PatientHealthPrint::display(ostream & stream)
 	{
+
+		cout << noID << endl;
+		for(auto dis : diseases)
+		{
+			cout << dis.first << " : " << dis.second << endl;
+		}
+
+		for(auto dis : numAttribute)
+		{
+			cout << dis.first << " : " << dis.second << endl;
+		}
+
+		for(auto dis : catAttribute)
+		{
+			cout << dis.first << " : " << dis.second << endl;
+		}
+
 		stream << "Afficher bien les attributs" << endl;
 	}
 
+
+	void PatientHealthPrint::setDiseasePercent(string name, double value)
+	{
+		diseases[name] = value;
+	}
 //------------------------------------------------- Surcharge d'opérateurs
 //PatientHealthPrint & PatientHealthPrint::operator = ( const PatientHealthPrint & unPatientHealthPrint )
 // Algorithme :
