@@ -68,7 +68,7 @@ Analyzer::Analyzer ( const Analyzer & unAnalyzer )
 } //----- Fin de Analyzer (constructeur de copie)
 
 
-Analyzer::Analyzer ( string histPath) : historyPath(histPath)
+Analyzer::Analyzer ( string user) : username(user)
 // Algorithme :
 //
 {
@@ -196,7 +196,7 @@ void Analyzer::makeDiseases(ifstream & refHpStream)
 		{
 			elem.second = (elem.second / (double)d.getNbSickPeople()) - (t_moy[elem.first]*t_moy[elem.first]);
 			elem.second = sqrt(elem.second);
-			if(elem.second < t_moy[elem.first]/2)
+			if(elem.second < fabs(t_moy[elem.first]/2))
 			{
 				d.addNumAttribute(elem.first, t_moy[elem.first], elem.second);
 			}

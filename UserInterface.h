@@ -6,12 +6,11 @@ class UserInterface
 {
 	private:
 		// methodes
-		bool Login();
+		std::string Login();
 		void EnableEcho(bool);
 
 		// variables
-		const std::string prompt = "> ";
-		const std::string defaultHisto = "./Historique.txt";
+		std::string prompt = "> ";
 		Analyzer* analyzer;
 
 	public:

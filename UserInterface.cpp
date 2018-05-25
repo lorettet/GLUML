@@ -5,6 +5,7 @@
 #include <unistd.h>
 #include "lib/split.h"
 #include "string.h"
+#include "Disease.h"
 
 using namespace std;
 
@@ -13,7 +14,6 @@ UserInterface::UserInterface()
 #ifdef MAP
 	cout << "[DEBUG] Constuction de UserInterface" << endl;
 #endif
-	analyzer = new Analyzer(defaultHisto);
 }
 
 UserInterface::~UserInterface()
@@ -28,13 +28,16 @@ void UserInterface::Run()
 {
 	cout << "lancement de l'appli" << endl;
 #ifdef LOGIN
-	if(!Login())
+	string username;
+	if((username = Login()) == "")
 	{
 		cerr << "Login ou mot de pass incorrect" << endl;
 		return;
 	}
 #endif
 	cout << "Connecté" << endl;
+	analyzer = new Analyzer(username);
+	prompt = username+"> ";
 	string s;
 	cin.clear();
 	cout << prompt;
@@ -50,11 +53,11 @@ void UserInterface::Run()
 		auto strs = split(s);
 		const auto cmd = strs[0];
 		const unsigned int nbArgs = strs.size();
-		if(cmd=="?" || cmd=="help")
+		if(cmd=="?" || cmd=="help" || cmd=="h")
 		{
 			cout << "help"<<"\t\t\t\t"<<"Affiche l'aide"<<endl;
 			cout << "analys-emp file"<<"\t\t\t"<<"Analyse une liste d'empreintes"<<endl;
-			cout << "set-ref file"<<"\t\t\t"<<"Spécifie un fichier d'empreinte de référence"<<endl;
+			cout << "set-ref refFile descFile"<<"\t\t\t"<<"Spécifie un fichier d'empreinte de référence"<<endl;
 			cout << "aff-maladie [nom]"<<"\t\t"<<"Affiche la liste de toutes les maladie ou les caractéristiques d'une malaide en particulier"<<endl;
 			cout << "aff-histo [-e nomEmp ] [-d jj/mm/aaaa] [-h empreinte]"<<"\t\t"<<"Affiche l'historique des analyses"<<endl;
 		}
@@ -69,6 +72,14 @@ void UserInterface::Run()
 				case 1:
 					//TODO : mettre le bon appel
 					cout << "Affichage de toutes les maladies" << endl;
+					{
+						map<string,Disease> listAllDisease = analyzer->getKnownDiseases();
+						for(auto & d : listAllDisease)
+						{
+							d.second.display();
+							cout << "-----------------------------" << endl;
+						}
+					}
 					break;
 				case 2:
 					//TODO : mettre le bon appel
@@ -169,7 +180,7 @@ void UserInterface::Run()
 	}
 }
 
-bool UserInterface::Login()
+string UserInterface::Login()
 {
 	string login;
 	string passwd;
@@ -186,7 +197,7 @@ bool UserInterface::Login()
 	if(!users)
 	{
 		cerr << "Le fichier \"users.conf\" n'existe pas" << endl;
-		return false;
+		return "";
 	}
 	
 	string user;
@@ -194,9 +205,9 @@ bool UserInterface::Login()
 	while(users>>user)
 	{
 		if(user==hash)
-			return true;
+			return login;
 	}
-	return false;
+	return "";
 	
 }
 

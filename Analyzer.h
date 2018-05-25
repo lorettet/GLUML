@@ -63,7 +63,7 @@ public:
     // Contrat :
     //
 
-    Analyzer ( string histPath);
+    Analyzer ( string user);
     // Mode d'emploi :
     //
     // Contrat :
@@ -88,8 +88,9 @@ private:
 //----------------------------------------------------- Attributs privées
 
     int nbRefHp; 
-    string historyPath;
+    const string historyPath = "file/historique.txt";
     map<string, Disease> diseaseList;
+    string username;
 
 protected:
 //----------------------------------------------------- Méthodes protégées
