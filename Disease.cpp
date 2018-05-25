@@ -73,8 +73,8 @@ using namespace std;
 	
 	void Disease::display(ostream & os)
 	{
-		os << "-----------" << name << "--------------" << endl ;
-		os << "NB SICKED PEOPLE : " << nbSickPeople << endl;
+		os << "---------------------------- "<<name<<" ---------------------------" << endl ;
+		os << "NB SICK PEOPLE : " << nbSickPeople << endl;
 		os << "NUM ATTRIBUTE--------------" << endl ;
 		for( auto elem : numAttribute)
 		{

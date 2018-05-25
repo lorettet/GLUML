@@ -46,7 +46,9 @@ public:
 
     void writeHistory(PatientHealthPrint PatientHp); 
 
-    void showHistory(iostream out, string date, string idEmploye, string idHp);
+    void showHistory(ostream & out, string date, string idEmploye, string idHp);
+    
+    void setUsername(string name);
 
 //------------------------------------------------- Surcharge d'opérateurs
     Analyzer & operator = ( const Analyzer & unAnalyzer );
@@ -63,7 +65,7 @@ public:
     // Contrat :
     //
 
-    Analyzer ( string user);
+    Analyzer ( );
     // Mode d'emploi :
     //
     // Contrat :

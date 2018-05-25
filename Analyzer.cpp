@@ -49,14 +49,54 @@ void Analyzer::writeHistory(PatientHealthPrint patientHp)//TODO
 //	ofs << patientHp.display();
 }
 
-void Analyzer::showHistory(iostream out, string date, string idEmploye, string idHp)//TODO
+void Analyzer::showHistory(ostream & out, string date, string idEmploye, string idHp)//TODO
 {
-
-}
+	ifstream ifs (historyPath);
+	if(!ifs)
+	{
+		cerr << "Erreur lors de l'ouverture du fichier " << historyPath << endl;
+		return;
+	}
+	
+	string hpLine;
+	while(ifs>> hpLine)
+	{
+		vector<string> strs = split(hpLine, ";");
+		string _date = strs[0];
+		string _idHp = strs[1];
+		string _idEmp = strs[2];
+		
+		// check filter
+		if(idEmploye != "" && idEmploye!=_idEmp) continue;
+		if(idHp != "" && idHp!=_idHp) continue;
+		if(date != "" && date!=_date) continue;
+		
+		out << "Employé : " << _idEmp;
+		out << " | Id : " << _idHp;
+		out << " | Date : "<< _date << endl;
+		out << "HEALTH PRINT :" << endl;
+		for(int i = 3; i<strs.size(); i++)
+		{
+			vector<string> value = split(strs[i],":");
+			out << "\t" << value[0] << " : " << value[1] << endl;
+		}
+		string diseaseLine;
+		ifs >> diseaseLine;
+		
+		vector<string> dList = split(diseaseLine,";");
+		out << "POSSIBLE DISEASE :" << endl;
+		for(string v : dList)
+		{
+			vector<string> value = split(v,":");
+			out << "\t" << value[0] << " : " << value[1] << endl;
+		}
+		out << "-----------------------------------------" << endl;
+	}
+}	
 
 list<PatientHealthPrint> Analyzer::analyze(string patientHpPath)
 {
-	PatientHealthPrint patientHp;
+
 }
 //------------------------------------------------- Surcharge d'opérateurs
 //Analyzer & Analyzer::operator = ( const Analyzer & unAnalyzer )
@@ -78,7 +118,7 @@ Analyzer::Analyzer ( const Analyzer & unAnalyzer )
 } //----- Fin de Analyzer (constructeur de copie)
 
 
-Analyzer::Analyzer ( string user) : username(user)
+Analyzer::Analyzer ( )
 // Algorithme :
 //
 {
@@ -227,6 +267,11 @@ void Analyzer::makeDiseases(ifstream & refHpStream)
 PatientHealthPrint Analyzer::searchDiseases(PatientHealthPrint PatientHp)
 {
 
+}
+
+void Analyzer::setUsername(string name)
+{
+	username = name;
 }
 
 //------------------------------------------------------------------ PRIVE
