@@ -1,0 +1,8 @@
+#/bin/bash
+
+if [[ $# -ne 2 ]] ;then
+	echo "usage : add-user login pwd"
+	exit
+fi
+
+echo -n $1:$2 | sha256deep >> file/users.conf

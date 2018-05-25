@@ -18,6 +18,9 @@ using namespace std;
 #include <list>
 #include <vector>
 #include <math.h>
+#include <chrono>
+#include <time.h>
+#include <sstream>
 //------------------------------------------------------ Include personnel
 #include "Analyzer.h"
 #include "lib/split.h"
@@ -45,8 +48,34 @@ Disease Analyzer::getDisease(string name)
 
 void Analyzer::writeHistory(PatientHealthPrint &patientHp)//TODO
 {
-	ofstream ofs (historyPath);
-//	ofs << patientHp.display();
+	ofstream ofs (historyPath, fstream::app);
+	
+	ostringstream ostrs;
+	char buffer[20];
+	time_t rawtime = chrono::system_clock::to_time_t(chrono::system_clock::now());
+	struct tm* timeinfo = localtime(&rawtime);
+	strftime(buffer, 20, "%d/%m/%Y",timeinfo);
+	string date(buffer);
+	ostrs << date << ";" << patientHp.getNoID() << ";" << username;
+	for(auto attr : patientHp.getNumAttribute())
+	{
+		ostrs << ";" << attr.first << ":" << attr.second;
+	}
+	for(auto attr : patientHp.getCatAttribute())
+	{
+		ostrs << ";" << attr.first << ":" << attr.second;
+	}
+	
+	ostrs << endl;
+	string sep = "";
+	for(auto value : patientHp.getPatientDiseases())
+	{
+		ostrs << sep << value.first << ":" << value.second;
+		sep = ";";
+	}
+	
+	ofs << ostrs.str() << endl;
+	
 }
 
 void Analyzer::showHistory(ostream & out, string date, string idEmploye, string idHp)//TODO
@@ -75,7 +104,7 @@ void Analyzer::showHistory(ostream & out, string date, string idEmploye, string 
 		out << " | Id : " << _idHp;
 		out << " | Date : "<< _date << endl;
 		out << "HEALTH PRINT :" << endl;
-		for(int i = 3; i<strs.size(); i++)
+		for(unsigned int i = 3; i<strs.size(); i++)
 		{
 			vector<string> value = split(strs[i],":");
 			out << "\t" << value[0] << " : " << value[1] << endl;
