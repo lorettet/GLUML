@@ -10,8 +10,8 @@ class UserInterface
 		void EnableEcho(bool);
 
 		// variables
-		std::string prompt = "> ";
-		Analyzer* analyzer;
+		std::string prompt;
+		Analyzer analyzer;
 
 	public:
 		UserInterface();

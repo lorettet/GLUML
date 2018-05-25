@@ -21,7 +21,6 @@ UserInterface::~UserInterface()
 #ifdef MAP
 	cout << "[DEGUB] Destruction de UserInterface" << endl;
 #endif
-	delete analyzer;
 }
 
 void UserInterface::Run()
@@ -36,7 +35,7 @@ void UserInterface::Run()
 	}
 #endif
 	cout << "Connecté" << endl;
-	analyzer = new Analyzer(username);
+	analyzer.setUsername(username);
 	prompt = username+"> ";
 	string s;
 	cin.clear();
@@ -70,20 +69,22 @@ void UserInterface::Run()
 			switch(nbArgs)
 			{
 				case 1:
-					//TODO : mettre le bon appel
 					cout << "Affichage de toutes les maladies" << endl;
 					{
-						map<string,Disease> listAllDisease = analyzer->getKnownDiseases();
+						map<string,Disease> listAllDisease = analyzer.getKnownDiseases();
 						for(auto & d : listAllDisease)
 						{
 							d.second.display();
-							cout << "-----------------------------" << endl;
+							cout << "------------------------------------------------------------" << endl;
 						}
 					}
 					break;
 				case 2:
-					//TODO : mettre le bon appel
 					cout << "Affichage des infos de la maladie : " << strs[1] << endl;
+					{
+						Disease d = analyzer.getDisease(strs[1]);
+						d.display();
+					} 
 					break;
 				default:
 					cerr << "Too many arguments" << endl;
@@ -96,10 +97,10 @@ void UserInterface::Run()
 			{
 				case 1:
 				case 2:
-					cerr << "Vous devez spécifier deux fichier" << endl;
+					cerr << "Vous devez spécifier deux fichiers" << endl;
 					break;
 				case 3:
-					analyzer->setRefFile(strs[1],strs[2]);
+					analyzer.setRefFile(strs[1],strs[2]);
 					break;
 				default:
 					cerr << "Too many arguments" << endl;
@@ -168,7 +169,7 @@ void UserInterface::Run()
 			optind=1;
 			
 			//TODO : appelle à la fonction
-			cout << "TODO : appelle à la fonction" << endl;
+			analyzer.showHistory(cout,date,emp,hp);
 			
 		}
 		else
