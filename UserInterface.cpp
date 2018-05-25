@@ -115,7 +115,7 @@ void UserInterface::Run()
 					cerr << "Vous devez spécifier un fichier" << endl;
 					break;
 				case 2:
-					analyzer->analyze(strs[1]);
+					analyzer.analyze(strs[1]);
 					cout << "Traitement des analyses"<< endl;
 					break;
 				default:

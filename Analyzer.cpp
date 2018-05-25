@@ -97,7 +97,6 @@ void Analyzer::showHistory(ostream & out, string date, string idEmploye, string 
 list<PatientHealthPrint> Analyzer::analyze(string patientHpPath)
 {
 
-<<<<<<< HEAD
 	ifstream ifs (patientHpPath);
 
 	string firstLine;
@@ -122,8 +121,6 @@ list<PatientHealthPrint> Analyzer::analyze(string patientHpPath)
 	}
 
 	return resultList;
-=======
->>>>>>> ec9872b2ecacf5bd8660a7efa12e7e6dd1f9fc95
 }
 //------------------------------------------------- Surcharge d'opérateurs
 //Analyzer & Analyzer::operator = ( const Analyzer & unAnalyzer )
