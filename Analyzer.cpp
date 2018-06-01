@@ -21,6 +21,7 @@ using namespace std;
 #include <chrono>
 #include <time.h>
 #include <sstream>
+#include <iomanip>
 //------------------------------------------------------ Include personnel
 #include "Analyzer.h"
 #include "lib/split.h"
@@ -57,6 +58,7 @@ void Analyzer::writeHistory(PatientHealthPrint &patientHp)//TODO
 	strftime(buffer, 20, "%d/%m/%Y",timeinfo);
 	string date(buffer);
 	ostrs << date << ";" << patientHp.getNoID() << ";" << username;
+	ostrs << fixed << setprecision(1);
 	for(auto attr : patientHp.getNumAttribute())
 	{
 		ostrs << ";" << attr.first << ":" << attr.second;
@@ -70,8 +72,11 @@ void Analyzer::writeHistory(PatientHealthPrint &patientHp)//TODO
 	string sep = "";
 	for(auto value : patientHp.getPatientDiseases())
 	{
-		ostrs << sep << value.first << ":" << value.second;
-		sep = ";";
+		if(value.second >= 0.25)
+		{
+			ostrs << sep << value.first << ":" << value.second*100;
+			sep = ";";
+		}
 	}
 	
 	ofs << ostrs.str() << endl;
@@ -86,7 +91,6 @@ void Analyzer::showHistory(ostream & out, string date, string idEmploye, string 
 		cerr << "Erreur lors de l'ouverture du fichier " << historyPath << endl;
 		return;
 	}
-	
 	string hpLine;
 	while(ifs>> hpLine)
 	{
@@ -117,7 +121,7 @@ void Analyzer::showHistory(ostream & out, string date, string idEmploye, string 
 		for(string v : dList)
 		{
 			vector<string> value = split(v,":");
-			out << "\t" << value[0] << " : " << value[1] << endl;
+			out << "\t" << value[0] << " : " << value[1] << "%" << endl;
 		}
 		out << "-----------------------------------------" << endl;
 	}
@@ -131,8 +135,6 @@ vector<PatientHealthPrint> Analyzer::analyze(string patientHpPath)
 	string firstLine;
 	
 	ifs >> firstLine;
-	
-	cout << firstLine << endl;
 
 	vector<string> labelOrder = split(firstLine,";");
 
@@ -140,14 +142,18 @@ vector<PatientHealthPrint> Analyzer::analyze(string patientHpPath)
 
 	string line;
 
+	auto startTime = clock();
 	while(ifs >> line)
 	{
-		cout << "analyse" << endl;
 		PatientHealthPrint patientHp (line, labelOrder);
 		searchDiseases(patientHp);
 		writeHistory(patientHp);
 		resultList.push_back(patientHp);
 	}
+	auto endTime = clock();
+	double time = (double)(endTime-startTime)/ CLOCKS_PER_SEC;
+	cout << setprecision(6);
+	cout << "Analyse effectué en " <<time << "s" << endl;
 
 	return resultList;
 }
@@ -193,7 +199,7 @@ Analyzer::~Analyzer ( )
 
 void Analyzer::setRefFile(string refHpPath, string hpDescriptionPath)
 {
-
+	diseaseList.clear();
 	ifstream ifs (hpDescriptionPath);
 	
 	if(!ifs)
@@ -310,6 +316,7 @@ void Analyzer::makeDiseases(ifstream & refHpStream)
 		
 		auto endTime = clock();
 		double time = (double)(endTime-startTime)/ CLOCKS_PER_SEC;
+		cout << setprecision(6);
 		cout << " faite en " <<time << "s" << endl;
 		
 	}

@@ -15,6 +15,7 @@ using namespace std;
 #include <iostream>
 #include <map>
 #include <string>
+#include <iomanip>
 //------------------------------------------------------ Include personnel
 #include "HealthPrint.h"
 #include "lib/split.h"
@@ -44,11 +45,12 @@ using namespace std;
     {
 		cout << "id : " << noID << endl;
 		cout << "---------- NUM --------------" << endl;
+		cout << fixed << setprecision(1);
 		for(auto elem : numAttribute)
 		{
 			cout << elem.first << " : " << elem.second << endl;
 		}
-		
+				
 		cout << "---------- CAT --------------" << endl;
 		for(auto elem : catAttribute)
 		{

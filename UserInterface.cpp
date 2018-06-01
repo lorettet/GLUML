@@ -74,8 +74,7 @@ void UserInterface::Run()
 						map<string,Disease> listAllDisease = analyzer.getKnownDiseases();
 						for(auto & d : listAllDisease)
 						{
-							d.second.display();
-							cout << "------------------------------------------------------------" << endl;
+							cout << "\t" << d.first << endl;
 						}
 					}
 					break;
@@ -174,7 +173,6 @@ void UserInterface::Run()
 			// On reset la fonction optget
 			optind=1;
 			
-			//TODO : appelle à la fonction
 			analyzer.showHistory(cout,date,emp,hp);
 			
 		}

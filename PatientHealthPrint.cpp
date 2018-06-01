@@ -14,6 +14,7 @@
 using namespace std;
 #include <iostream>
 #include <map>
+#include <iomanip>
 
 //------------------------------------------------------ Include personnel
 #include "PatientHealthPrint.h"
@@ -36,23 +37,25 @@ using namespace std;
 	
 	void PatientHealthPrint::display(ostream & stream)
 	{
-
+		stream << fixed << setprecision(1);
 		stream << "Id : " << noID << endl;
 		stream << "ATTRIBUTES NUM : " << endl;
-		for(auto dis : numAttribute)
+		for(auto & dis : numAttribute)
 		{
 			cout << "\t" << dis.first << " : " << dis.second << endl;
 		}
 		stream << "ATTRIBUTES CAT : " << endl;
-		for(auto dis : catAttribute)
+		for(auto & dis : catAttribute)
 		{
 			cout << "\t" << dis.first << " : " << dis.second << endl;
 		}
 		
 		stream << "DISEASE PROBABILITIES : " << endl;
-		for(auto dis : diseases)
+
+		for(auto & dis : diseases)
 		{
-			cout << "\t" << dis.first << " : " << dis.second << endl;
+			if(dis.second >= 0.25)
+				cout << "\t" << dis.first << " : " << dis.second*100 << "%" << endl;
 		}
 	}
 

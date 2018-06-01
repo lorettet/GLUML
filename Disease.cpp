@@ -14,6 +14,7 @@
 using namespace std;
 #include <iostream>
 #include <map>
+#include <iomanip>
 //------------------------------------------------------ Include personnel
 #include "Disease.h"
 
@@ -73,6 +74,7 @@ using namespace std;
 	
 	void Disease::display(ostream & os)
 	{
+		os << fixed << setprecision(1);
 		os << "---------------------------- "<<name<<" ---------------------------" << endl ;
 		os << "NB SICK PEOPLE : " << nbSickPeople << endl;
 		os << "NUM ATTRIBUTE--------------" << endl ;
