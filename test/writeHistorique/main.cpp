@@ -10,7 +10,7 @@ int main()
 {
 	Analyzer a;
 	a.setUsername("1");
-	a.setRefFile("ref.txt","param.txt");
+	a.setRefFile("../refHPSet.txt","../param.txt");
 	a.analyze("emp7.txt");
 	a.setUsername("2");
 	a.analyze("emp8.txt");
@@ -18,6 +18,7 @@ int main()
 	a.analyze("emp9.txt");
 	ifstream h("file/historique.txt");
 	string s;
+	cout << endl << "Contenu de historique.txt :" << endl;
 	while(h>>s)
 	{
 		cout << s << endl;
