@@ -1,0 +1,28 @@
+3 maladies
+---------------------------- M1 ---------------------------
+NB SICK PEOPLE : 2
+NUM ATTRIBUTE--------------
+A3 :  avg = 127.5 | sd = 19.5
+A4 :  avg = 149.5 | sd = 17.5
+CAT ATTRIBUTE--------------
+A1
+ :  valueAttr = AA | percentage = 1.0
+---------------------------- M2 ---------------------------
+NB SICK PEOPLE : 2
+NUM ATTRIBUTE--------------
+A2 :  avg = 35.0 | sd = 17.1
+A4 :  avg = 173.0 | sd = 0.0
+CAT ATTRIBUTE--------------
+A1
+ :  valueAttr = AA | percentage = 0.5
+ :  valueAttr = ZZ | percentage = 0.5
+---------------------------- safe ---------------------------
+NB SICK PEOPLE : 3
+NUM ATTRIBUTE--------------
+A2 :  avg = 92.2 | sd = 19.1
+A3 :  avg = -112.0 | sd = 2.8
+CAT ATTRIBUTE--------------
+A1
+ :  valueAttr = AA | percentage = 0.3
+ :  valueAttr = AB | percentage = 0.3
+ :  valueAttr = TF | percentage = 0.3

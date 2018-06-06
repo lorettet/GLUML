@@ -1,0 +1,4 @@
+lancement de l'appli
+Login : Password : 
+Connecté
+root> 

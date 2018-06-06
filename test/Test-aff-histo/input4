@@ -1,0 +1,2 @@
+set-ref ../refHPSet.txt ../param.txt
+aff-histo -e monique
