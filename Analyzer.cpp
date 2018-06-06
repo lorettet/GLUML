@@ -141,8 +141,9 @@ vector<PatientHealthPrint> Analyzer::analyze(string patientHpPath)
 	vector<PatientHealthPrint> resultList;
 
 	string line;
-
+#ifdef PERF
 	auto startTime = clock();
+#endif
 	while(ifs >> line)
 	{
 		PatientHealthPrint patientHp (line, labelOrder);
@@ -150,10 +151,12 @@ vector<PatientHealthPrint> Analyzer::analyze(string patientHpPath)
 		writeHistory(patientHp);
 		resultList.push_back(patientHp);
 	}
+#ifdef PERF
 	auto endTime = clock();
 	double time = (double)(endTime-startTime)/ CLOCKS_PER_SEC;
-	cout << setprecision(6);
+	cout << setprecision(6) << fixed;
 	cout << "Analyse effectué en " <<time << "s" << endl;
+#endif
 
 	return resultList;
 }
@@ -275,8 +278,10 @@ void Analyzer::makeDiseases(ifstream & refHpStream)
 	
 	for(auto hpref : diseaseHpMap) // map<string "nom maladie", vector<RefHealthPrint> "empreintes associées">
 	{
+#ifdef PERF
 		cout << "Analyse pour " << hpref.first;
 		auto startTime = clock();
+#endif
 		map<string,double> t_moy;
 		map<string,double> t_ec;
 		Disease d(hpref.first);
@@ -314,10 +319,12 @@ void Analyzer::makeDiseases(ifstream & refHpStream)
 		d.setPercentagesCatAttribute();
 		diseaseList[hpref.first] = d;
 		
+#ifdef PERF
 		auto endTime = clock();
 		double time = (double)(endTime-startTime)/ CLOCKS_PER_SEC;
 		cout << setprecision(6);
 		cout << " faite en " <<time << "s" << endl;
+#endif
 		
 	}
 	
