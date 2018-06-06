@@ -256,6 +256,11 @@ void Analyzer::setRefFile(string refHpPath, string hpDescriptionPath)
 
 void Analyzer::makeDiseases(ifstream & refHpStream)
 {	
+	
+#ifdef PERF
+	cout << "Lecture du fichier..." << endl;
+	auto beginTime = clock();
+#endif
 	string firstLine;
 	
 	refHpStream >> firstLine;
@@ -273,6 +278,15 @@ void Analyzer::makeDiseases(ifstream & refHpStream)
 		
 		diseaseHpMap[name].push_back(refHp);
 	}
+	
+#ifdef PERF
+	{
+		auto endTimeFile = clock();
+		double time = (double)(endTimeFile-beginTime)/ CLOCKS_PER_SEC;
+		cout << setprecision(6) << fixed;
+		cout << "Fichier lu en " <<time << "s" << endl;
+	}
+#endif
 	
 	cout << diseaseHpMap.size() << " maladies" << endl;
 	
@@ -322,11 +336,20 @@ void Analyzer::makeDiseases(ifstream & refHpStream)
 #ifdef PERF
 		auto endTime = clock();
 		double time = (double)(endTime-startTime)/ CLOCKS_PER_SEC;
-		cout << setprecision(6);
+		cout << setprecision(6) << fixed;
 		cout << " faite en " <<time << "s" << endl;
 #endif
 		
 	}
+	
+#ifdef PERF
+	{
+		auto endTime = clock();
+		auto time = (double)(endTime-beginTime)/ CLOCKS_PER_SEC;
+		cout << setprecision(6) << fixed;
+		cout << "Temps totale : " <<time << "s" << endl;
+	}
+#endif
 	
 	
 }
