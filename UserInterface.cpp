@@ -26,21 +26,21 @@ UserInterface::~UserInterface()
 void UserInterface::Run()
 {
 	cout << "lancement de l'appli" << endl;
-#ifdef LOGIN
 	string username;
+#ifdef LOGIN
 	if((username = Login()) == "")
 	{
 		cerr << "Login ou mot de pass incorrect" << endl;
 		return;
 	}
+	cin.clear();
+	cin.ignore();
 #endif
 	cout << "Connecté" << endl;
 	analyzer.setUsername(username);
 	prompt = username+"> ";
 	string s;
-	cin.clear();
 	cout << prompt;
-	cin.ignore();
 	while(getline(cin,s))
 	{
 		if(s=="")
@@ -142,7 +142,7 @@ void UserInterface::Run()
 			
 			int c;
 			
-			while((c = getopt(nbArgs, args, "d:e:h:")) != -1)
+			while((c = getopt(nbArgs, args, "d:e:p:")) != -1)
 			{
 				switch(c)
 				{
@@ -152,17 +152,13 @@ void UserInterface::Run()
 					case 'e':
 						emp = string(optarg);
 						break;
-					case 'h':
+					case 'p':
 						hp = string(optarg);
 						break;
 					default:
 						break;
 				}
 			}
-
-			cout << "emp : "<<emp<<endl;
-			cout << "date : "<<date<<endl;
-			cout << "hp : "<<hp<<endl;
 			
 			
 			for(unsigned int i = 0; i<nbArgs; i++)

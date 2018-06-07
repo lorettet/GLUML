@@ -150,8 +150,10 @@ vector<PatientHealthPrint> Analyzer::analyze(string patientHpPath)
 	vector<PatientHealthPrint> resultList;
 
 	string line;
-
+#ifdef PERF
 	auto startTime = clock();
+#endif
+	while(ifs >> line)
 
 	//for each PatientHealthPrint in the file
 	//find the sicknesses it's likely to have and their probability
@@ -161,10 +163,12 @@ vector<PatientHealthPrint> Analyzer::analyze(string patientHpPath)
 		writeHistory(patientHp);
 		resultList.push_back(patientHp);
 	}
+#ifdef PERF
 	auto endTime = clock();
 	double time = (double)(endTime-startTime)/ CLOCKS_PER_SEC;
-	cout << setprecision(6);
-	cout << "Analyse effectuée en " <<time << "s" << endl;
+	cout << setprecision(6) << fixed;
+	cout << "Analyse effectué en " <<time << "s" << endl;
+#endif
 
 	return resultList;
 }
@@ -267,6 +271,11 @@ void Analyzer::setRefFile(string refHpPath, string hpDescriptionPath)
 
 void Analyzer::makeDiseases(ifstream & refHpStream)
 {
+
+#ifdef PERF
+	cout << "Lecture du fichier..." << endl;
+	auto beginTime = clock();
+#endif
 	string firstLine;
 
 	refHpStream >> firstLine;
@@ -288,13 +297,24 @@ void Analyzer::makeDiseases(ifstream & refHpStream)
 		diseaseHpMap[name].push_back(refHp);
 	}
 
+#ifdef PERF
+	{
+		auto endTimeFile = clock();
+		double time = (double)(endTimeFile-beginTime)/ CLOCKS_PER_SEC;
+		cout << setprecision(6) << fixed;
+		cout << "Fichier lu en " <<time << "s" << endl;
+	}
+#endif
+
 	cout << diseaseHpMap.size() << " maladies" << endl;
 
 	//for each sickness found in the file, assessment of the disease model
 	for(auto hpref : diseaseHpMap) // map<string "nom maladie", vector<RefHealthPrint> "empreintes associées">
 	{
+#ifdef PERF
 		cout << "Analyse pour " << hpref.first;
 		auto startTime = clock();
+#endif
 		map<string,double> t_moy;
 		map<string,double> t_ec;
 
@@ -343,12 +363,23 @@ void Analyzer::makeDiseases(ifstream & refHpStream)
 		d.setPercentagesCatAttribute();
 		diseaseList[hpref.first] = d;
 
+#ifdef PERF
 		auto endTime = clock();
 		double time = (double)(endTime-startTime)/ CLOCKS_PER_SEC;
-		cout << setprecision(6);
+		cout << setprecision(6) << fixed;
 		cout << " faite en " <<time << "s" << endl;
+#endif
 
 	}
+
+#ifdef PERF
+	{
+		auto endTime = clock();
+		auto time = (double)(endTime-beginTime)/ CLOCKS_PER_SEC;
+		cout << setprecision(6) << fixed;
+		cout << "Temps totale : " <<time << "s" << endl;
+	}
+#endif
 
 
 }

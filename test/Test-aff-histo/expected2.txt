@@ -1,0 +1,14 @@
+lancement de l'appli
+Connecté
+> 3 maladies
+> Employé : alfred | Id : 1 | Date : 06/06/2018
+HEALTH PRINT :
+	A2 : 29.0
+	A3 : 94.0
+	A4 : 158.0
+	A1 : TF
+POSSIBLE DISEASE :
+	M1 : 25.2%
+	M2 : 27.4%
+-----------------------------------------
+> 

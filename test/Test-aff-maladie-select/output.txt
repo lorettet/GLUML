@@ -1,0 +1,13 @@
+lancement de l'appli
+Connecté
+> 3 maladies
+> Affichage des infos de la maladie : M1
+---------------------------- M1 ---------------------------
+NB SICK PEOPLE : 2
+NUM ATTRIBUTE--------------
+A3 :  avg = 127.5 | sd = 19.5
+A4 :  avg = 149.5 | sd = 17.5
+CAT ATTRIBUTE--------------
+A1
+ :  valueAttr = AA | percentage = 1.0
+> 
