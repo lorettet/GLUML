@@ -50,7 +50,7 @@ Disease Analyzer::getDisease(string name)
 void Analyzer::writeHistory(PatientHealthPrint &patientHp)//TODO
 {
 	ofstream ofs (historyPath, fstream::app);
-	
+
 	ostringstream ostrs;
 	char buffer[20];
 	time_t rawtime = chrono::system_clock::to_time_t(chrono::system_clock::now());
@@ -59,6 +59,8 @@ void Analyzer::writeHistory(PatientHealthPrint &patientHp)//TODO
 	string date(buffer);
 	ostrs << date << ";" << patientHp.getNoID() << ";" << username;
 	ostrs << fixed << setprecision(1);
+
+	//save values of the PatientHealthPrint
 	for(auto attr : patientHp.getNumAttribute())
 	{
 		ostrs << ";" << attr.first << ":" << attr.second;
@@ -67,8 +69,10 @@ void Analyzer::writeHistory(PatientHealthPrint &patientHp)//TODO
 	{
 		ostrs << ";" << attr.first << ":" << attr.second;
 	}
-	
+
 	ostrs << endl;
+
+	//save probability for each sickness if it's higher than 25%
 	string sep = "";
 	for(auto value : patientHp.getPatientDiseases())
 	{
@@ -78,9 +82,9 @@ void Analyzer::writeHistory(PatientHealthPrint &patientHp)//TODO
 			sep = ";";
 		}
 	}
-	
+
 	ofs << ostrs.str() << endl;
-	
+
 }
 
 void Analyzer::showHistory(ostream & out, string date, string idEmploye, string idHp)//TODO
@@ -98,12 +102,12 @@ void Analyzer::showHistory(ostream & out, string date, string idEmploye, string 
 		string _date = strs[0];
 		string _idHp = strs[1];
 		string _idEmp = strs[2];
-		
+
 		// check filter
 		if(idEmploye != "" && idEmploye!=_idEmp) {ifs>>hpLine;continue;}
 		if(idHp != "" && idHp!=_idHp) {ifs>>hpLine;continue;}
 		if(date != "" && date!=_date) {ifs>>hpLine;continue;}
-		
+
 		out << "Employé : " << _idEmp;
 		out << " | Id : " << _idHp;
 		out << " | Date : "<< _date << endl;
@@ -115,7 +119,7 @@ void Analyzer::showHistory(ostream & out, string date, string idEmploye, string 
 		}
 		string diseaseLine;
 		ifs >> diseaseLine;
-		
+
 		vector<string> dList = split(diseaseLine,";");
 		out << "POSSIBLE DISEASE :" << endl;
 		for(string v : dList)
@@ -125,15 +129,20 @@ void Analyzer::showHistory(ostream & out, string date, string idEmploye, string 
 		}
 		out << "-----------------------------------------" << endl;
 	}
-}	
+}
 
 vector<PatientHealthPrint> Analyzer::analyze(string patientHpPath)
 {
-
 	ifstream ifs (patientHpPath);
 
+	if(!ifs)
+	{
+		cerr << "Error : Erreur lors de l'ouverture du fichier " << patientHpPath << endl;
+		return;
+	}
+
 	string firstLine;
-	
+
 	ifs >> firstLine;
 
 	vector<string> labelOrder = split(firstLine,";");
@@ -143,7 +152,9 @@ vector<PatientHealthPrint> Analyzer::analyze(string patientHpPath)
 	string line;
 
 	auto startTime = clock();
-	while(ifs >> line)
+
+	//for each PatientHealthPrint in the file
+	//find the sicknesses it's likely to have and their probability
 	{
 		PatientHealthPrint patientHp (line, labelOrder);
 		searchDiseases(patientHp);
@@ -153,7 +164,7 @@ vector<PatientHealthPrint> Analyzer::analyze(string patientHpPath)
 	auto endTime = clock();
 	double time = (double)(endTime-startTime)/ CLOCKS_PER_SEC;
 	cout << setprecision(6);
-	cout << "Analyse effectué en " <<time << "s" << endl;
+	cout << "Analyse effectuée en " <<time << "s" << endl;
 
 	return resultList;
 }
@@ -200,18 +211,20 @@ Analyzer::~Analyzer ( )
 void Analyzer::setRefFile(string refHpPath, string hpDescriptionPath)
 {
 	diseaseList.clear();
+
+
 	ifstream ifs (hpDescriptionPath);
-	
+
 	if(!ifs)
 	{
 		cerr << "Error : Erreur lors de l'ouverture du fichier " << hpDescriptionPath << endl;
 		return;
 	}
-	
-	
+
+	//define the attributes of the HealthPrints and their types
 	string firstLine;
 	ifs >> firstLine;
-	bool normalOrder;
+	bool normalOrder; //true if order is AttributeName;AttributeType
 	if(firstLine.find_first_of("AttributeName")==0)
 	{
 		normalOrder = true;
@@ -220,12 +233,12 @@ void Analyzer::setRefFile(string refHpPath, string hpDescriptionPath)
 	{
 		normalOrder = false;
 	}
-	
+
 	string line;
-	
+
 	while(ifs >> line)
 	{
-		
+
 		auto splited = split(line,";");
 		if(normalOrder)
 		{
@@ -236,59 +249,71 @@ void Analyzer::setRefFile(string refHpPath, string hpDescriptionPath)
 			hpDescription[splited[1]] = splited[0];
 		}
 	}
-	
+
 	ifs.close();
-	
+
 	ifs.open(refHpPath);
-	
+
 	if(!ifs)
 	{
 		cerr << "Error : Erreur lors de l'ouverture du fichier " << refHpPath << endl;
 		return;
 	}
-	
+
+	//get the model for the sicknessess
 	makeDiseases(ifs);
-	
+
 }
 
 void Analyzer::makeDiseases(ifstream & refHpStream)
-{	
+{
 	string firstLine;
-	
+
 	refHpStream >> firstLine;
-	
+
+	//vector contains the names of the attributes in the HealthPrint
 	vector<string> labelOrder = split(firstLine,";");
-	
+
 	string line;
-	
+
+	//will contain all the disease names found in the file
+	//and a vector containing all the RefHealthPrints associated to it
 	map<string, vector<RefHealthPrint>> diseaseHpMap;
-	
+
 	while(refHpStream >> line)
-	{	
+	{
 		RefHealthPrint refHp(line, labelOrder);
 		string name = refHp.getDisease();
-		
+
 		diseaseHpMap[name].push_back(refHp);
 	}
-	
+
 	cout << diseaseHpMap.size() << " maladies" << endl;
-	
+
+	//for each sickness found in the file, assessment of the disease model
 	for(auto hpref : diseaseHpMap) // map<string "nom maladie", vector<RefHealthPrint> "empreintes associées">
 	{
 		cout << "Analyse pour " << hpref.first;
 		auto startTime = clock();
 		map<string,double> t_moy;
 		map<string,double> t_ec;
+
+		//creation of the disease model object
 		Disease d(hpref.first);
-		
+
+		//For each RefHealthPrint associated to the sickness
 		for(auto hp : hpref.second) //vector<RefHealthPrint> "empreintes associées"
-		{	
-			
+		{
+			//Categorial attributes
+			//Count the number of appeareances of each value for each attribute
 			for(auto attr : hp.getCatAttribute()) // map <string "name attribute", string "valeur attribut">
 			{
 				d.incrCatAttribute(attr.first,attr.second);
 			}
 
+			//Numeral attributes
+			//Operations for the on the fly assesment the mean values
+			//and the standart deviation for each attribute
 			for(auto attr : hp.getNumAttribute()) // map <string "name attribute", double "valeur attribut">
 			{
 				t_moy[attr.first] += attr.second;
@@ -296,11 +321,14 @@ void Analyzer::makeDiseases(ifstream & refHpStream)
 			}
 			d.incrNbSickPeople();
 		}
+
+		//Final operation of the mean values
 		for(auto & elem : t_moy)
 		{
 			elem.second = elem.second / (double)d.getNbSickPeople();
 		}
-		
+
+		//Final operation for the standart deviation
 		for(auto & elem : t_ec)
 		{
 			elem.second = (elem.second / (double)d.getNbSickPeople()) - (t_moy[elem.first]*t_moy[elem.first]);
@@ -310,37 +338,45 @@ void Analyzer::makeDiseases(ifstream & refHpStream)
 				d.addNumAttribute(elem.first, t_moy[elem.first], elem.second);
 			}
 		}
-		
+
+		//Set the parameters of the model and add it to the list of the Analyzer
 		d.setPercentagesCatAttribute();
 		diseaseList[hpref.first] = d;
-		
+
 		auto endTime = clock();
 		double time = (double)(endTime-startTime)/ CLOCKS_PER_SEC;
 		cout << setprecision(6);
 		cout << " faite en " <<time << "s" << endl;
-		
+
 	}
-	
-	
+
+
 }
 
 void Analyzer::searchDiseases(PatientHealthPrint & PatientHp)
 {
-	int nbAtt;
-	double percent;
-	double vNum;// = 0;
-	string vCat;
-	double avg;
-	double sd;
+	int nbAtt; //number of attributes of the disease model
+	double percent; //likelyhood of having a sickness
+	double vNum; //numeral attribute value of for the PatientHealthPrint
+	string vCat; //categorial attribute value of for the PatientHealthPrint
+	double avg; //average for an attribute of the disease model
+	double sd; //standart deviation for an attribute of the disease model
 
+	//maps of numeral and categorial attributes of the PatientHealthPrint
+	//map<"name", "value">
 	auto patientNumMap = PatientHp.getNumAttribute();
 	auto patientCatMap = PatientHp.getCatAttribute();
 
-	for(auto d : diseaseList)
+	//for each known disease
+	for(auto d : diseaseList) //map<string "disease name", Disease> diseaseList;
 	{
 		nbAtt = 0;
 		percent = 0;
 
+		//Numeral attributes
+		//assessment of the percentage of likelyhood of having the sicknesses
+		//according to its position regarding the mean and the standart deviation
+		//of the attribute
 		for(auto a : d.second.getNumAttribute())
 		{
 			if(patientNumMap.find(a.first) != patientNumMap.end())
@@ -348,8 +384,8 @@ void Analyzer::searchDiseases(PatientHealthPrint & PatientHp)
 				vNum = patientNumMap[a.first];
 			}
 			else continue;
-			
-			avg = a.second.first; 
+
+			avg = a.second.first;
 			sd = a.second.second;
 
 			if(vNum > avg-sd && vNum < avg+sd)
@@ -365,6 +401,9 @@ void Analyzer::searchDiseases(PatientHealthPrint & PatientHp)
 			nbAtt++;
 		}
 
+		//Categorial attributes
+		//assessment of the percentage of likelyhood of having the sicknesses
+		//according to the percentage of RefHealthPrint that had the same value
 		for(auto a : d.second.getCatAttribute())
 		{
 			if(patientCatMap.find(a.first) != patientCatMap.end())
@@ -372,7 +411,7 @@ void Analyzer::searchDiseases(PatientHealthPrint & PatientHp)
 				vCat = patientCatMap[a.first];
 			}
 			else continue;
-			
+
 			if(a.second.find(vCat) != a.second.end())
 			{
 				percent += a.second[vCat];
@@ -381,10 +420,11 @@ void Analyzer::searchDiseases(PatientHealthPrint & PatientHp)
 			nbAtt++;
 		}
 
+		//final likelihood is the mean of all the attribute percentages
 		PatientHp.setDiseasePercent(d.first, percent/nbAtt);
 	}
-	
-	
+
+
 }
 
 void Analyzer::setUsername(string name)
