@@ -55,6 +55,9 @@ public:
     // Mode d'emploi :
     //  Créé une empreinte avec line une ligne du fichier d'empreintes
     // et labelOrder décrivant l'ordre des données dans la ligne
+    // Contrat :
+    //  line doit respecté le format CSV et venir d'un fichier d'empreintes 
+    //  et doit respecter l'ordre des données spécifié par labelOrder
     HealthPrint (string line, vector<string> & labelOrder);
 
     HealthPrint ( );
