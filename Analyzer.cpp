@@ -138,7 +138,7 @@ vector<PatientHealthPrint> Analyzer::analyze(string patientHpPath)
 	if(!ifs)
 	{
 		cerr << "Error : Erreur lors de l'ouverture du fichier " << patientHpPath << endl;
-		return;
+		return vector<PatientHealthPrint>();
 	}
 
 	string firstLine;
