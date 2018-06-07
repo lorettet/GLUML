@@ -29,49 +29,29 @@ class RefHealthPrint : public HealthPrint
 
 public:
 //----------------------------------------------------- Méthodes publiques
-    // type Méthode ( liste des paramètres );
     // Mode d'emploi :
-    //
-    // Contrat :
-    //
-
+    // Revoie le nom de la maladie associée à l'empreinte
     string getDisease();
     
+    //Mode d'emploi
+    // Affichage de l'empreinte sur la sortie standard
     virtual void display();
 
 //------------------------------------------------- Surcharge d'opérateurs
-    RefHealthPrint & operator = ( const RefHealthPrint & unRefHealthPrint );
-    // Mode d'emploi :
-    //
-    // Contrat :
-    //
 
 
 //-------------------------------------------- Constructeurs - destructeur
-    //RefHealthPrint ( const RefHealthPrint & unRefHealthPrint );
-    // Mode d'emploi (constructeur de copie) :
-    //
-    // Contrat :
-    //
-
     RefHealthPrint ( string line, vector<string> & labelOrder );
-    // Mode d'emploi :
-    //
-    // Contrat :
-    //
 
     virtual ~RefHealthPrint ( );
-    // Mode d'emploi :
-    //
-    // Contrat :
-    //
+
 
 //------------------------------------------------------------------ PRIVE
 private: 
 //----------------------------------------------------- Méthodes privées
 
 //----------------------------------------------------- Attributs privés   
-    string disease;
+    string disease; //nom de la maladie associée à l'empreinte
 protected:
 //----------------------------------------------------- Méthodes protégées
 
