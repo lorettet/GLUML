@@ -133,12 +133,18 @@ void Analyzer::showHistory(ostream & out, string date, string idEmploye, string 
 
 vector<PatientHealthPrint> Analyzer::analyze(string patientHpPath)
 {
+	if(diseaseList.size() == 0)
+	{
+		cerr << "Error : vous devez définir un jeu de référence avant d'effectuer une analyse" << endl;
+		return vector<PatientHealthPrint>();
+	}
+	
 	ifstream ifs (patientHpPath);
 
 	if(!ifs)
 	{
 		cerr << "Error : Erreur lors de l'ouverture du fichier " << patientHpPath << endl;
-		return;
+		return vector<PatientHealthPrint>();
 	}
 
 	string firstLine;
