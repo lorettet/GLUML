@@ -22,8 +22,7 @@ using namespace std;
 
 //------------------------------------------------------------------------
 // Rôle de la classe <HealthPrint>
-//
-//
+//  Cette classe gère les différentes empreintes
 //------------------------------------------------------------------------
 
 class HealthPrint
@@ -32,43 +31,38 @@ class HealthPrint
 
 public:
 //----------------------------------------------------- Méthodes publiques
-    // type Méthode ( liste des paramètres );
+
     // Mode d'emploi :
-    //
-    // Contrat :
-    //
-
+    //  Renvoi la liste des attributs numériques avec leur valeur associée
     map<string, double> getNumAttribute(); 
-
+    
+    // Mode d'emploi :
+    //  Renvoi la liste des attributs catégoriels avec leur valeur associée
     map<string, string> getCatAttribute();
     
+    // Mode d'emploi :
+    //  Renvoi l'id de l'empreinte
     string getNoID();
     
+    // Mode d'emploi :
+    //  Affiche une empreinte avec toutes ses informations
     virtual void display();
 
 //------------------------------------------------- Surcharge d'opérateurs
     HealthPrint & operator = ( const HealthPrint & unHealthPrint );
-    // Mode d'emploi :
-    //
-    // Contrat :
-    //
-
 
 //-------------------------------------------- Constructeurs - destructeur
-
-    HealthPrint (string line, vector<string> & labelOrder);
     // Mode d'emploi :
-    //
+    //  Créé une empreinte avec line une ligne du fichier d'empreintes
+    // et labelOrder décrivant l'ordre des données dans la ligne
     // Contrat :
-    //
+    //  line doit respecté le format CSV et venir d'un fichier d'empreintes 
+    //  et doit respecter l'ordre des données spécifié par labelOrder
+    HealthPrint (string line, vector<string> & labelOrder);
 
     HealthPrint ( );
 
     virtual ~HealthPrint ( ) = 0;
-    // Mode d'emploi :
-    //
-    // Contrat :
-    //
 
 //------------------------------------------------------------------ PRIVE
 
@@ -76,9 +70,14 @@ protected:
 //----------------------------------------------------- Méthodes protégées
 
 //----------------------------------------------------- Attributs protégés
+    // Liste des attributs numériques avec pour chacun sa valeur pour 
+    // cette empreinte
     map<string, double> numAttribute;
+  
+    // Liste des attributs catégoriels avec pour chacun sa valeur pour 
+    // cette empreinte
     map<string, string> catAttribute;
-    string noID;
+    string noID; // Id de l'empreinte
 };
 
 //-------------------------------- Autres définitions dépendantes de <HealthPrint>
