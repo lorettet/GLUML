@@ -30,7 +30,7 @@ Affiche l'aide.
 ### analys-emp file
 Analyse une liste d'empreintes.
 ### set-ref refFile descFile
-Spécifie un fichier d'empreinte de référence. **A faire avant d'effectuer une analyse.**
+Spécifie un fichier d'empreinte de référence. **A faire avant d'effectuer une analyse.** Les fichiers data/big.txt et data/param.txt sont ceux données sur Moodle.
 ### aff-maladie [nom]
 Affiche la liste de toutes les maladie ou les caractéristiques d'une malaide en particulier.
 ### aff-histo [-e nomEmp ] [-d jj/mm/aaaa] [-p empreinte]
